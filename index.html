@@ -23,11 +23,13 @@
     </div>
 
     <div id="scroll-section" class="hidden">
-        <div id="leaf-container"></div> <div class="scroll-paper">
+        <div id="leaf-container"></div>
+        
+        <div class="scroll-paper">
             <div class="scroll-content">
                 <h2>To my Dearest Charise,</h2>
                 <p class="letter-text">
-                    [Insert your message for Charise here!]
+                    [Insert your message here!]
                 </p>
                 
                 <div class="polaroid-row">
@@ -57,18 +59,27 @@
             const container = document.getElementById('leaf-container');
             const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            for(let i=0; i<15; i++) {
+            // Generate 12 large leaves
+            for(let i=0; i<12; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
                 
-                let size = Math.random() * 30 + 100; // Large leaves
+                let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
+                let size = Math.random() * 40 + 100; // Large size (100px - 140px)
+                
                 leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
                 
+                // Random position from left to right
                 leaf.style.left = Math.random() * 100 + 'vw';
-                // The "Cradle" effect: slow fall + swaying
-                leaf.style.animationDuration = (Math.random() * 10 + 20) + 's, ' + (Math.random() * 2 + 4) + 's';
-                leaf.style.animationDelay = (Math.random() * 15) + 's';
+                
+                // Randomized timing for a natural look
+                let fallDuration = (Math.random() * 10 + 20) + 's';
+                let swayDuration = (Math.random() * 2 + 4) + 's';
+                let delay = (Math.random() * 15) + 's';
+
+                // Assigning the animations directly
+                leaf.style.animation = `fall ${fallDuration} linear infinite ${delay}, 
+                                        sway ${swayDuration} ease-in-out infinite ${delay}`;
                 
                 container.appendChild(leaf);
             }
