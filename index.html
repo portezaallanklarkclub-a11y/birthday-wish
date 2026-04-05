@@ -10,8 +10,6 @@
 
     <div class="bg-overlay"></div>
 
-    <div id="leaf-container"></div>
-
     <div id="intro-screen" class="centered">
         <div class="intro-card">
             <h1>Happy Birthday!</h1>
@@ -22,37 +20,33 @@
             </div>
             <button onclick="openScroll()" class="open-btn">Follow the Wind 🍁</button>
         </div>
-    </div> <div id="scroll-section" class="hidden">
+    </div>
+
+    <div id="scroll-section" class="hidden">
+        <div class="leaf-container" id="leaf-container"></div>
+        
         <div class="scroll-paper">
             <div class="scroll-content">
-                <h2>To my Dearest Charise,</h2>
+                <h2>To my Dearest [Name],</h2>
                 <p class="letter-text">
-                    [Your birthday letter goes here!]
+                    [Insert your birthday letter here!]
                 </p>
                 
                 <div class="polaroid-row">
-                    <div class="polaroid">
-                        <img src="kazuha1.jpg" alt="Kazuha Memory 1">
-                        <p>A wandering heart</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="kazuha2.jpg" alt="Kazuha Memory 2">
-                        <p>Autumn's grace</p>
-                    </div>
+                    <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
+                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn's grace</p></div>
                 </div>
             </div>
         </div>
-    </div> <script>
+    </div>
+
+    <script>
         function openScroll() {
-            const intro = document.getElementById('intro-screen');
-            const scroll = document.getElementById('scroll-section');
-            
-            intro.classList.add('fade-out');
-            
+            document.getElementById('intro-screen').classList.add('fade-out');
             setTimeout(() => {
-                intro.style.display = 'none';
-                scroll.classList.remove('hidden');
-                scroll.classList.add('fade-in');
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('scroll-section').classList.remove('hidden');
+                document.getElementById('scroll-section').classList.add('fade-in');
                 generateLeaves();
             }, 600);
         }
@@ -61,21 +55,22 @@
             const container = document.getElementById('leaf-container');
             const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            for(let i=0; i<15; i++) {
+            // Reduced count for a more "peaceful" look
+            for(let i=0; i<12; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
+                
                 let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
                 
-                let size = Math.random() * 20 + 80; 
-                leaf.innerHTML = `<img src="${imgNum}" alt="leaf" style="width: ${size}px; height: auto;">`;
+                // REALISTIC LARGE SIZE (100px to 130px)
+                let size = Math.random() * 30 + 100; 
+                leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
                 
                 leaf.style.left = Math.random() * 100 + 'vw';
                 
-                let fallDur = (Math.random() * 5 + 10) + 's'; 
-                let swayDur = (Math.random() * 2 + 3) + 's';
-                let delay = (Math.random() * 8) + 's';
-
-                leaf.style.animation = `fall ${fallDur} linear infinite ${delay}, sway ${swayDur} ease-in-out infinite ${delay}`;
+                // EXTREMELY SLOW FALL (20 to 30 seconds)
+                leaf.style.animationDuration = (Math.random() * 10 + 20) + 's, ' + (Math.random() * 2 + 4) + 's';
+                leaf.style.animationDelay = (Math.random() * 15) + 's';
                 
                 container.appendChild(leaf);
             }
