@@ -22,6 +22,22 @@
             overflow-x: hidden;
             margin: 0;
             color: var(--kazuha-gray);
+            min-height: 100vh;
+        }
+
+        /* Blurred Background Scenery */
+        .bg-scenery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('kazuha-bg.jpg'); /* Updated filename */
+            background-size: cover;
+            background-position: center;
+            filter: blur(6px) brightness(0.6);
+            z-index: -1;
+            transform: scale(1.1); /* Prevents white edges from blur */
         }
 
         .serif {
@@ -36,16 +52,16 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .leaf {
             position: absolute;
-            background-image: url('leaf2.png'); /* Using your uploaded image */
+            background-image: url('leaf2.png'); 
             background-size: contain;
             background-repeat: no-repeat;
             opacity: 0.8;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
             animation: fall linear infinite;
             will-change: transform;
         }
@@ -76,7 +92,7 @@
             height: 35px;
             background: linear-gradient(to bottom, #5d4037, var(--wood-dark), #5d4037);
             border-radius: 4px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             position: relative;
             z-index: 20;
         }
@@ -97,12 +113,12 @@
         .scroll-body {
             background-color: var(--scroll-silk);
             padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
             background-image: url("https://www.transparenttextures.com/patterns/silk.png");
             min-height: 100px;
             transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            max-height: 80px; /* Initially "rolled" */
+            max-height: 80px; 
         }
 
         .scroll-body.open {
@@ -120,7 +136,6 @@
                 radial-gradient(circle at 100% 0%, rgba(179, 57, 57, 0.08) 0, transparent 200px);
         }
 
-        /* Image Placeholder Styling */
         .image-frame {
             border: 8px solid #fff;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -149,7 +164,6 @@
             text-align: center;
         }
 
-        /* Tassel Animation */
         .tassel {
             width: 2px;
             height: 60px;
@@ -214,10 +228,13 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
+    <!-- Scenery Background Layer -->
+    <div class="bg-scenery"></div>
+    
     <div class="leaf-container" id="leaf-container"></div>
 
     <!-- Introduction -->
-    <div id="intro-screen" class="text-center text-white mb-12">
+    <div id="intro-screen" class="text-center text-white mb-12 drop-shadow-lg">
         <h1 class="text-3xl md:text-4xl serif mb-4 opacity-0 transition-opacity duration-1000" id="title-text">
             Unroll the path ahead...
         </h1>
@@ -225,22 +242,18 @@
 
     <!-- Scroll Structure -->
     <div class="scroll-wrapper w-full">
-        <!-- Top Roller -->
         <div class="scroll-roller"></div>
         
-        <!-- Scroll Body -->
         <div class="scroll-body" id="scroll-body">
-            <!-- Seal to open -->
             <div id="seal-container" class="py-2">
                 <div class="seal" id="scroll-seal">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                         <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
                     </svg>
                 </div>
-                <p class="text-center text-xs serif uppercase tracking-widest text-brown-800 opacity-60">Break the Seal</p>
+                <p class="text-center text-xs serif uppercase tracking-widest text-orange-900 font-bold opacity-80">Break the Seal</p>
             </div>
 
-            <!-- Inner Content -->
             <div id="inner-content" class="hidden-content">
                 <div class="inner-paper shadow-inner">
                     <div class="text-center mb-6">
@@ -252,7 +265,6 @@
                         </div>
                     </div>
 
-                    <!-- IMAGE PLACEHOLDER 1 -->
                     <div class="image-frame">
                         <img src="" alt="" onerror="this.style.display='none';">
                         <div class="placeholder-text px-4">Memories of the Journey<br><span class="text-[10px] mt-2 block">(Replace with image URL)</span></div>
@@ -264,7 +276,6 @@
                         <p id="poem-3" class="opacity-0 transition-opacity duration-1000">"Wandering hearts rest."</p>
                     </div>
 
-                    <!-- IMAGE PLACEHOLDER 2 -->
                     <div class="image-frame opacity-0 transition-opacity duration-1000" id="img-placeholder-2">
                         <img src="" alt="" onerror="this.style.display='none';">
                         <div class="placeholder-text px-4">A Quiet Moment<br><span class="text-[10px] mt-2 block">(Replace with image URL)</span></div>
@@ -285,7 +296,6 @@
                     </div>
                 </div>
                 
-                <!-- Action Button -->
                 <div class="mt-10 flex justify-center">
                     <button id="wind-button" class="px-8 py-3 bg-red-900 text-white hover:bg-red-800 transition-all rounded-sm serif text-sm uppercase tracking-widest shadow-lg">
                         Listen to the Wind
@@ -294,14 +304,13 @@
             </div>
         </div>
 
-        <!-- Bottom Roller -->
         <div class="scroll-roller">
             <div class="tassel" style="left: 40px;"></div>
             <div class="tassel" style="right: 40px;"></div>
         </div>
     </div>
 
-    <div id="footer-note" class="text-center text-gray-500 mt-12 opacity-0 text-sm italic serif">
+    <div id="footer-note" class="text-center text-white drop-shadow-md mt-12 opacity-0 text-sm italic serif">
         "The wind knows all."
     </div>
 
@@ -317,7 +326,7 @@
             setTimeout(() => {
                 document.getElementById('title-text').style.opacity = '1';
             }, 500);
-            createLeaves(8); // Slightly fewer leaves since they are much larger now
+            createLeaves(8); 
         };
 
         function createLeaves(count) {
@@ -331,14 +340,14 @@
 
         function resetLeaf(leaf) {
             const startX = Math.random() * window.innerWidth;
-            const duration = 10 + Math.random() * 15; // Slower fall for realism
-            const size = 60 + Math.random() * 80;    // Significantly larger (60px to 140px)
+            const duration = 12 + Math.random() * 18; 
+            const size = 70 + Math.random() * 90;    
             
             leaf.style.left = `${startX}px`;
             leaf.style.width = `${size}px`;
             leaf.style.height = `${size}px`;
             leaf.style.animationDuration = `${duration}s`;
-            leaf.style.animationDelay = `-${Math.random() * 20}s`; // Use negative delay so they start mid-fall
+            leaf.style.animationDelay = `-${Math.random() * 30}s`; 
         }
 
         scrollSeal.addEventListener('click', () => {
@@ -398,8 +407,8 @@
             const y = e.clientY / window.innerHeight;
             leaves.forEach(leaf => {
                 const speed = parseFloat(leaf.style.width) / 20;
-                leaf.style.marginLeft = `${(x - 0.5) * 50 * speed}px`;
-                leaf.style.marginTop = `${(y - 0.5) * 50 * speed}px`;
+                leaf.style.marginLeft = `${(x - 0.5) * 60 * speed}px`;
+                leaf.style.marginTop = `${(y - 0.5) * 60 * speed}px`;
             });
         });
     </script>
