@@ -1,48 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message on the Wind</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <div class="bg-overlay"></div>
-
-    <input type="checkbox" id="scroll-toggle">
+<div class="letter-container">
+    <div id="envelope" onclick="openLetter()">
+        <div class="maple-seal">🍁</div>
+        <p>A message carried by the wind...</p>
+    </div>
     
-    <label for="scroll-toggle" class="scroll-container">
-        
-        <div class="leaf-system">
-            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+    <div id="message" class="hidden">
+        <h1>To a Kind Soul,</h1>
+        <p class="archaic-text">
+            "The wind has whispered of a special day. 
+            May your path be clear and your heart as light as a falling leaf."
+        </p>
+        <div class="letter-body">
+            <!-- Your personal message goes here -->
+            Happy Birthday! [Your Message]
         </div>
-
-        <div class="scroll-wrapper">
-            <div class="roller top"></div>
-            
-            <div class="scroll-body">
-                <div class="letter-content">
-                    <h2>Dearest Charise,</h2>
-                    <p class="text">
-                        [Your birthday message here...]
-                    </p>
-                    <div class="polaroid-row">
-                        <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="roller bottom"></div>
-            <div class="ribbon"></div>
-            <div class="hint-text">Tap to unroll</div>
-        </div>
-    </label>
-
-</body>
-</html>
+        <p class="signature">— A humble wanderer</p>
+    </div>
+</div>
