@@ -1,36 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message on the Wind</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <div class="letter-container">
-        <div id="envelope" onclick="openLetter()">
-            <div class="maple-seal">🍁</div>
-            <p>A gift for a special soul... <br> (Click the leaf to open)</p>
-        </div>
-        
-        <div id="message" class="hidden">
-            <h1>Happy Birthday</h1>
-            <p class="haiku">
-                <em>"Leaves dance on the breeze,<br>
-                A new year turns like the tide,<br>
-                Nature smiles on you."</em>
-            </p>
-            <hr>
-            <div class="letter-body">
-                <p>To my favorite person,</p>
-                <p>Like the wandering wind, you bring a sense of peace wherever you go. I hope your day is filled with as much beauty as an Inazuman autumn.</p>
-                <p>With love,</p>
-                <p class="signature">[Your Name]</p>
-            </div>
-        </div>
+<div class="scene">
+    <div id="seal-container" onclick="unrollScroll()">
+        <div class="maple-seal">🍁</div>
+        <p>A message from the wind...</p>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div id="scroll" class="scroll-closed">
+        <div class="scroll-roller top"></div>
+        
+        <div class="scroll-content">
+            <div class="scroll-text">
+                <h1>To a Kind Soul,</h1>
+                <p class="haiku">
+                    <em>"Leaves dance on the breeze,<br>
+                    A new year turns like the tide,<br>
+                    Nature smiles on you."</em>
+                </p>
+                <div class="letter-body">
+                    <p>Like the wandering wind, you bring peace wherever you go. I hope your day is as beautiful as an Inazuman autumn.</p>
+                    <p>— Your Wanderer</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-roller bottom"></div>
+    </div>
+</div>
