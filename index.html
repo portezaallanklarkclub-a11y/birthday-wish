@@ -10,71 +10,42 @@
 
     <div class="bg-overlay"></div>
 
-    <div id="intro-screen" class="centered">
-        <div class="intro-card">
-            <h1>Happy Birthday!</h1>
+    <div id="leaf-container">
+        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+    </div>
+
+    <div class="scroll-paper">
+        <div class="scroll-content">
+            <h1>Happy Birthday, Charise!</h1>
             <div class="haiku">
                 <p>Maple leaves in flight,</p>
                 <p>A new year dawns in the light,</p>
                 <p>Peace be yours tonight.</p>
             </div>
-            <button onclick="openScroll()" class="open-btn">Follow the Wind 🍁</button>
-        </div>
-    </div>
-
-    <div id="scroll-section" class="hidden">
-        <div class="leaf-container" id="leaf-container"></div>
-        
-        <div class="scroll-paper">
-            <div class="scroll-content">
-                <h2>To my Dearest [Name],</h2>
-                <p class="letter-text">
-                    [Insert your birthday letter here!]
-                </p>
-                
-                <div class="polaroid-row">
-                    <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
-                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn's grace</p></div>
+            
+            <p class="letter-text">
+                [Your heartfelt message goes here...]
+            </p>
+            
+            <div class="polaroid-row">
+                <div class="polaroid">
+                    <img src="kazuha1.jpg" alt="Memory 1">
+                    <p>A wandering heart</p>
+                </div>
+                <div class="polaroid">
+                    <img src="kazuha2.jpg" alt="Memory 2">
+                    <p>Autumn's grace</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        function openScroll() {
-            document.getElementById('intro-screen').classList.add('fade-out');
-            setTimeout(() => {
-                document.getElementById('intro-screen').style.display = 'none';
-                document.getElementById('scroll-section').classList.remove('hidden');
-                document.getElementById('scroll-section').classList.add('fade-in');
-                generateLeaves();
-            }, 600);
-        }
-
-        function generateLeaves() {
-            const container = document.getElementById('leaf-container');
-            const leafImages = ['leaf1.png', 'leaf2.png'];
-            
-            // Reduced count for a more "peaceful" look
-            for(let i=0; i<12; i++) {
-                let leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                
-                let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
-                
-                // REALISTIC LARGE SIZE (100px to 130px)
-                let size = Math.random() * 30 + 100; 
-                leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
-                
-                leaf.style.left = Math.random() * 100 + 'vw';
-                
-                // EXTREMELY SLOW FALL (20 to 30 seconds)
-                leaf.style.animationDuration = (Math.random() * 10 + 20) + 's, ' + (Math.random() * 2 + 4) + 's';
-                leaf.style.animationDelay = (Math.random() * 15) + 's';
-                
-                container.appendChild(leaf);
-            }
-        }
-    </script>
 </body>
 </html>
