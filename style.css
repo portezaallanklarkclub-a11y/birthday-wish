@@ -1,70 +1,72 @@
+/* --- THE FOUNDATION --- */
 body, html {
     margin: 0;
     padding: 0;
     min-height: 100vh;
     font-family: 'Georgia', serif;
     background-color: #1a0f0f;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevents horizontal scroll from large leaves */
 }
 
-/* Background */
+/* --- LAYER 0: THE SCENERY --- */
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background-image: url('kazuha-bg.jpg');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.5);
-    z-index: -1;
+    filter: brightness(0.4);
+    z-index: 1; /* Bottom Layer */
 }
 
-/* The Stage for the Leaves */
+/* --- LAYER 1: THE ATMOSPHERE (LEAVES) --- */
 #leaf-container {
     position: fixed;
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh;
-    pointer-events: none;
-    z-index: 10; /* Set between background and scroll */
+    pointer-events: none; /* Allows clicking the letter through the leaves */
+    z-index: 10; /* Behind the letter (z-index 50) */
     overflow: hidden;
 }
 
 .leaf {
     position: absolute;
-    top: 0; /* STARTING AT THE TOP */
+    top: 0; /* Starting point fixed at the top */
     opacity: 0;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); /* Heavier shadow for larger leaves */
     will-change: transform;
 }
 
-/* THE WIND SWAY (Cradling effect) */
+/* THE WIND SWAY (Cradling effect for massive leaves) */
 @keyframes sway {
     0%, 100% { 
-        margin-left: -100px; 
-        transform: rotate(-25deg); 
+        margin-left: -200px; /* Wider path for larger scale */
+        transform: rotate(-35deg); 
     }
     50% { 
-        margin-left: 100px; 
-        transform: rotate(25deg); 
+        margin-left: 200px; 
+        transform: rotate(35deg); 
     }
 }
 
 /* THE FALLING (Gravity effect) */
 @keyframes fall {
     0% { 
-        transform: translateY(-150px) rotateX(0deg); 
+        /* Starts well above the view to accommodate the 200px+ size */
+        transform: translateY(-300px) rotateX(0deg); 
         opacity: 0; 
     }
     10% { opacity: 1; }
-    95% { opacity: 1; }
+    90% { opacity: 1; }
     100% { 
-        transform: translateY(110vh) rotateX(720deg); 
+        transform: translateY(120vh) rotateX(720deg); 
         opacity: 0; 
     }
 }
 
-/* Letter Elements */
+/* --- LAYER 2: THE LETTER (SCROLL) --- */
 .scroll-paper {
     background: #fdfcf0;
     max-width: 650px;
@@ -72,28 +74,84 @@ body, html {
     padding: 60px 45px;
     border-left: 15px solid #d4a373;
     border-right: 15px solid #d4a373;
-    box-shadow: 0 0 60px rgba(0,0,0,0.9);
+    box-shadow: 0 0 80px rgba(0,0,0,0.9);
     position: relative;
-    z-index: 50; /* Stays above the leaves */
+    z-index: 50; /* Stays ON TOP of the falling leaves */
 }
 
-.letter-text { line-height: 2.2; font-size: 1.25rem; white-space: pre-wrap; color: #4a2113; }
+.letter-text { 
+    line-height: 2.2; 
+    font-size: 1.25rem; 
+    white-space: pre-wrap; 
+    color: #4a2113; 
+}
 
-/* Intro Card */
-.centered { height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; z-index: 100; }
-.intro-card { background: rgba(253, 252, 240, 0.95); padding: 50px; text-align: center; border: 1px solid #ba2d1e; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-width: 400px; }
-.haiku { font-style: italic; margin: 25px 0; color: #ba2d1e; line-height: 1.8; }
-.open-btn { background: #ba2d1e; color: white; border: none; padding: 12px 25px; cursor: pointer; font-family: 'Georgia', serif; font-size: 1.1rem; }
+/* --- UI ELEMENTS (INTRO) --- */
+.centered {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
 
-/* Transitions */
+.intro-card {
+    background: rgba(253, 252, 240, 0.98);
+    padding: 50px;
+    text-align: center;
+    border: 1px solid #ba2d1e;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    max-width: 400px;
+}
+
+.haiku { 
+    font-style: italic; 
+    margin: 25px 0; 
+    color: #ba2d1e; 
+    line-height: 1.8; 
+    font-size: 1.1rem;
+}
+
+.open-btn {
+    background: #ba2d1e;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
+}
+
+.open-btn:hover {
+    background: #8e1f14;
+    transform: scale(1.05);
+}
+
+/* --- ANIMATIONS & POLAROIDS --- */
 .hidden { display: none; }
 .fade-in { animation: fadeIn 2.5s forwards; }
 .fade-out { animation: fadeOut 0.6s forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-/* Images */
-.polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
-.polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); transform: rotate(-2deg); width: 200px; }
+.polaroid-row { 
+    display: flex; 
+    justify-content: center; 
+    gap: 30px; 
+    margin-top: 50px; 
+    flex-wrap: wrap; 
+}
+
+.polaroid { 
+    background: white; 
+    padding: 10px 10px 30px 10px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5); 
+    transform: rotate(-2deg); 
+    width: 200px; 
+}
+
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
 .polaroid p { text-align: center; font-family: cursive; margin-top: 10px; color: #333; }
