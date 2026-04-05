@@ -8,9 +8,9 @@
 </head>
 <body>
 
-    <!-- 1. NEWLY ADDED SIDE LEAVES (Place them here) -->
-    <img src="leaf1.png" class="side-leaf leaf-left" alt="Maple Leaf">
-    <img src="leaf2.png" class="side-leaf leaf-right" alt="Maple Leaf">
+    <!-- Decorative Side Leaves -->
+    <img src="leaf1.png" class="side-leaf leaf-left" alt="">
+    <img src="leaf2.png" class="side-leaf leaf-right" alt="">
 
     <!-- The Interactive Envelope -->
     <div class="envelope-wrapper" id="envelope-wrapper" onclick="openLetter()">
@@ -22,7 +22,7 @@
         <p class="instruction">A message for you has arrived... <br> (Click to open)</p>
     </div>
 
-    <!-- The Letter Content (Initially Hidden) -->
+    <!-- The Letter Content -->
     <div class="letter-overlay" id="letter-overlay">
         <div class="leaf-container" id="leaf-container"></div>
         
@@ -34,9 +34,9 @@
             </div>
             
             <article class="message">
-                <h2>Happy Birthday, [Name]!</h2>
+                <h2>Happy Birthday!</h2>
                 <p>
-                    [Your heartfelt message goes here.]
+                    [Write your message here]
                 </p>
                 
                 <div class="polaroid-row">
@@ -50,7 +50,6 @@
     <script>
         function openLetter() {
             document.getElementById('envelope-wrapper').classList.add('open-anim');
-            
             setTimeout(() => {
                 document.getElementById('letter-overlay').classList.add('visible');
                 document.body.classList.add('bg-active');
@@ -63,13 +62,12 @@
             for(let i=0; i<15; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                // 2. UPDATED TO USE YOUR IMAGE FOR FALLING LEAVES
                 leaf.innerHTML = `<img src="leaf1.png" style="width: 30px; height: auto;">`;
                 leaf.style.left = Math.random() * 100 + 'vw';
                 leaf.style.animationDelay = Math.random() * 5 + 's';
                 container.appendChild(leaf);
             }
         }
-    <script src="script.js"></script>
+    </script>
 </body>
 </html>
