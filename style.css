@@ -1,3 +1,4 @@
+/* --- Core Setup --- */
 body, html {
     margin: 0;
     padding: 0;
@@ -7,31 +8,49 @@ body, html {
     overflow-x: hidden;
 }
 
-/* THE BACKGROUND (Bottom Layer) */
+/* --- The Background --- */
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('kazuha-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.4);
-    z-index: -1; /* Pushed to the very back */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('kazuha-bg.jpg') center/cover no-repeat;
+    z-index: -1;
 }
 
-/* THE LEAVES (Middle Layer) */
+/* --- The Scroll Paper --- */
+.scroll-paper {
+    background: #fdfcf0;
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 50px 40px;
+    border-left: 12px solid #d4a373;
+    border-right: 12px solid #d4a373;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 100; /* Stays in front of leaves */
+    text-align: center;
+}
+
+.letter-text { line-height: 1.8; color: #4a2113; white-space: pre-wrap; font-size: 1.1rem; }
+.haiku { font-style: italic; color: #ba2d1e; margin: 20px 0; border-bottom: 1px solid #ba2d1e; padding-bottom: 20px; }
+
+/* --- The Leaves (No JavaScript needed) --- */
 #leaf-container {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 10; /* Above background, below letter */
+    z-index: 10;
 }
 
 .leaf {
     position: absolute;
-    top: 0px; /* Start just off-screen */
+    top: -100px;
     opacity: 0;
+    animation: fall 10s linear infinite, sway 4s ease-in-out infinite;
 }
 
+.leaf img { width: 100px; height: auto; }
+
+/* Simple Gravity */
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
@@ -39,34 +58,23 @@ body, html {
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
+/* Simple Sway */
 @keyframes sway {
-    0%, 100% { margin-left: -50px; transform: rotate(-15deg); }
-    50% { margin-left: 50px; transform: rotate(15deg); }
+    0%, 100% { margin-left: -30px; }
+    50% { margin-left: 30px; }
 }
 
-/* THE LETTER (Top Layer) */
-.scroll-paper {
-    background: #fdfcf0;
-    max-width: 650px;
-    margin: 80px auto;
-    padding: 60px 45px;
-    border-left: 15px solid #d4a373;
-    border-right: 15px solid #d4a373;
-    box-shadow: 0 0 50px rgba(0,0,0,0.7);
-    position: relative;
-    z-index: 100; /* Highest layer */
-}
+/* Randomizing the leaves manually in CSS */
+.leaf:nth-child(1) { left: 10%; animation-delay: 0s; }
+.leaf:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 12s; }
+.leaf:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 9s; }
+.leaf:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 11s; }
+.leaf:nth-child(5) { left: 90%; animation-delay: 5s; animation-duration: 13s; }
+.leaf:nth-child(6) { left: 20%; animation-delay: 3s; animation-duration: 10s; }
+.leaf:nth-child(7) { left: 80%; animation-delay: 6s; animation-duration: 14s; }
+.leaf:nth-child(8) { left: 40%; animation-delay: 0.5s; animation-duration: 15s; }
 
-/* --- UI Helpers --- */
-.centered { height: 100vh; display: flex; justify-content: center; align-items: center; z-index: 200; position: relative; }
-.intro-card { background: #fdfcf0; padding: 40px; text-align: center; border: 1px solid #ba2d1e; max-width: 350px; }
-.open-btn { background: #ba2d1e; color: white; border: none; padding: 10px 20px; cursor: pointer; }
-.hidden { display: none; }
-.fade-in { animation: fadeIn 1.5s forwards; }
-.fade-out { animation: fadeOut 0.5s forwards; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-.letter-text { line-height: 1.8; font-size: 1.1rem; color: #4a2113; }
-.polaroid { background: white; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 180px; margin-top: 20px; }
+/* --- Visuals --- */
+.polaroid-row { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+.polaroid { background: white; padding: 10px 10px 25px 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: rotate(-2deg); width: 180px; }
 .polaroid img { width: 100%; height: auto; }
