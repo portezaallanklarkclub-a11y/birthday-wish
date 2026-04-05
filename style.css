@@ -1,36 +1,60 @@
-/* --- LAYER 0: THE BACKGROUND --- */
-html, body {
+body, html {
     margin: 0;
     padding: 0;
-    width: 100%;
     min-height: 100vh;
     font-family: 'Georgia', serif;
-    /* Use a gradient to darken the image slightly so the white paper pops */
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                url('kazuha-bg.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #1a0f0f;
+    overflow-x: hidden;
 }
 
-/* --- LAYER 1: THE LEAF CONTAINER (Behind the Paper) --- */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('kazuha-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5);
+    z-index: -1;
+}
+
+.centered {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+
+.intro-card {
+    background: rgba(253, 252, 240, 0.95);
+    padding: 50px;
+    text-align: center;
+    border: 1px solid #ba2d1e;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    max-width: 400px;
+}
+
+.haiku { font-style: italic; margin: 25px 0; color: #ba2d1e; line-height: 1.8; }
+
+.open-btn {
+    background: #ba2d1e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+}
+
+/* Layering: Leaf Container behind Scroll Paper */
 #leaf-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 0; left: 0; width: 100vw; height: 100vh;
     pointer-events: none;
-    z-index: 10; /* Lower than the paper */
-    overflow: hidden;
+    z-index: 10; 
 }
 
-.leaf {
-    position: absolute;
-    top: -25vh;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-    animation: fall linear infinite, cradle ease-in-out infinite;
-}
-
-/* --- LAYER 2: THE SCROLL PAPER (In Front of Leaves) --- */
 .scroll-paper {
     background: #fdfcf0;
     max-width: 650px;
@@ -38,35 +62,37 @@ html, body {
     padding: 60px 45px;
     border-left: 15px solid #d4a373;
     border-right: 15px solid #d4a373;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    box-shadow: 0 0 60px rgba(0,0,0,0.9);
     position: relative;
-    z-index: 20; /* Higher than the leaves */
+    z-index: 50; /* Higher than leaves */
 }
 
-/* --- LEAF ANIMATION (Swaying & Rotating) --- */
+/* Realistic Wind Movement */
+.leaf {
+    position: absolute;
+    top: -20vh;
+    animation: fall linear infinite, cradle ease-in-out infinite;
+}
+
 @keyframes fall {
-    0% { transform: translateY(0) rotateX(0deg) rotateY(0deg); opacity: 0; }
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(125vh) rotateX(720deg) rotateY(360deg); opacity: 0; }
+    100% { transform: translateY(125vh) rotate(720deg); opacity: 0; }
 }
 
 @keyframes cradle {
-    0%, 100% { margin-left: -100px; transform: rotate(-20deg); }
-    50% { margin-left: 100px; transform: rotate(20deg); }
+    0%, 100% { margin-left: -80px; transform: rotate(-20deg); }
+    50% { margin-left: 80px; transform: rotate(20deg); }
 }
 
-/* Polaroids and Text */
+/* Text and Images */
 .letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; color: #4a2113; }
 .polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
 .polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); transform: rotate(-2deg); width: 200px; }
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
 .polaroid p { text-align: center; font-family: cursive; margin-top: 10px; color: #333; }
 
-/* Intro Card */
-.centered { height: 100vh; display: flex; justify-content: center; align-items: center; }
-.intro-card { background: #fdfcf0; padding: 50px; text-align: center; border: 2px solid #ba2d1e; z-index: 100; position: relative; }
-.open-btn { background: #ba2d1e; color: white; border: none; padding: 12px 25px; cursor: pointer; }
 .hidden { display: none; }
 .fade-in { animation: fadeIn 2s forwards; }
 .fade-out { animation: fadeOut 0.6s forwards; }
