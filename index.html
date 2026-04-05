@@ -2,30 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Message on the Wind</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="leaf-container"></div> <!-- For falling leaves -->
 
-    <section class="hero">
-        <h1>Happy Birthday</h1>
-        <p class="subtitle">"The wind knows all, and today it carries a message for you."</p>
+    <!-- Section 1: The Intro -->
+    <section class="intro">
+        <div class="intro-box">
+            <h1>Happy Birthday!</h1>
+            <div class="haiku">
+                <p>Maple leaves in flight,</p>
+                <p>A new year dawns in the light,</p>
+                <p>Peace be yours tonight.</p>
+            </div>
+            <p class="scroll-hint">↓ Scroll to open the letter ↓</p>
+        </div>
     </section>
 
-    <div class="scroll-container">
-        <div class="letter-content">
-            <h2>To my dearest [Name],</h2>
+    <!-- Section 2: The Unfolding Letter -->
+    <section class="letter-section">
+        <div class="leaf-container" id="leaf-container"></div>
+        
+        <div class="letter-box">
+            <h2>To my favorite Wanderer,</h2>
             <p>
-                [Your heartfelt birthday message goes here. Talk about the journey 
-                you've shared and the bright seasons ahead.]
+                [Paste your long birthday letter here! Kazuha would appreciate 
+                your words being as heartfelt as the autumn wind.]
             </p>
-            <div class="haiku">
-                <p>Autumn leaves drift by,</p>
-                <p>A new year begins for you,</p>
-                <p>Peace follows your path.</p>
+            
+            <!-- Polaroid Section -->
+            <div class="polaroid-gallery">
+                <div class="polaroid">
+                    <img src="kazuha1.jpg" alt="Kazuha">
+                    <p>Wandering Heart</p>
+                </div>
+                <div class="polaroid">
+                    <img src="kazuha2.jpg" alt="Kazuha">
+                    <p>Autumn Gust</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Script to trigger leaves on scroll -->
+    <script>
+        window.addEventListener('scroll', function() {
+            const leafContainer = document.getElementById('leaf-container');
+            if (window.scrollY > 200) {
+                leafContainer.style.opacity = '1';
+                document.body.classList.add('bg-visible');
+            }
+        });
+    </script>
 </body>
 </html>
