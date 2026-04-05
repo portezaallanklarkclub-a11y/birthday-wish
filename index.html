@@ -10,42 +10,39 @@
 
     <div class="bg-overlay"></div>
 
-    <div id="leaf-container">
-        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
-        <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
-    </div>
-
-    <div class="scroll-paper">
-        <div class="scroll-content">
-            <h1>Happy Birthday, Charise!</h1>
-            <div class="haiku">
-                <p>Maple leaves in flight,</p>
-                <p>A new year dawns in the light,</p>
-                <p>Peace be yours tonight.</p>
-            </div>
-            
-            <p class="letter-text">
-                [Your heartfelt message goes here...]
-            </p>
-            
-            <div class="polaroid-row">
-                <div class="polaroid">
-                    <img src="kazuha1.jpg" alt="Memory 1">
-                    <p>A wandering heart</p>
-                </div>
-                <div class="polaroid">
-                    <img src="kazuha2.jpg" alt="Memory 2">
-                    <p>Autumn's grace</p>
-                </div>
-            </div>
+    <input type="checkbox" id="scroll-toggle">
+    
+    <label for="scroll-toggle" class="scroll-container">
+        
+        <div class="leaf-system">
+            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
+            <div class="leaf"><img src="leaf1.png" alt="leaf"></div>
+            <div class="leaf"><img src="leaf2.png" alt="leaf"></div>
         </div>
-    </div>
+
+        <div class="scroll-wrapper">
+            <div class="roller top"></div>
+            
+            <div class="scroll-body">
+                <div class="letter-content">
+                    <h2>Dearest Charise,</h2>
+                    <p class="text">
+                        [Your birthday message here...]
+                    </p>
+                    <div class="polaroid-row">
+                        <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="roller bottom"></div>
+            <div class="ribbon"></div>
+            <div class="hint-text">Tap to unroll</div>
+        </div>
+    </label>
 
 </body>
 </html>
