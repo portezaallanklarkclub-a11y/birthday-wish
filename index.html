@@ -3,58 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Letter on the Wind</title>
+    <title>A Message on the Wind</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Decorative Side Leaves -->
-    <img src="leaf1.png" class="side-leaf leaf-left" alt="">
-    <img src="leaf2.png" class="side-leaf leaf-right" alt="">
+    <!-- Background Scenery -->
+    <div class="bg-overlay"></div>
 
-    <!-- The Interactive Envelope -->
-    <div class="envelope-wrapper" id="envelope-wrapper" onclick="openLetter()">
-        <div class="envelope">
-            <div class="flap"></div>
-            <div class="body"></div>
-            <div class="seal">🍁</div>
+    <!-- Act 1: The Intro Button -->
+    <div id="intro-screen" class="centered">
+        <div class="intro-card">
+            <h1>Happy Birthday!</h1>
+            <p class="haiku">"Leaves fall, wind whispers,<br>A path unfolds just for you,<br>Happy day of birth."</p>
+            <button onclick="openScroll()" class="open-btn">Open the Scroll 🍁</button>
         </div>
-        <p class="instruction">A message for you has arrived... <br> (Click to open)</p>
     </div>
 
-    <!-- The Letter Content -->
-    <div class="letter-overlay" id="letter-overlay">
-        <div class="leaf-container" id="leaf-container"></div>
-        
-        <div class="scroll-content">
-            <div class="haiku">
-                <p>Autumn leaves drift by,</p>
-                <p>A new year begins for you,</p>
-                <p>Peace follows your path.</p>
-            </div>
-            
-            <article class="message">
-                <h2>Happy Birthday!</h2>
+    <!-- Act 2: The Scroll (Hidden until clicked) -->
+    <div id="scroll-section" class="hidden">
+        <div class="scroll-paper">
+            <div class="scroll-content">
+                <h2>To my Dearest [Name],</h2>
                 <p>
-                    [Write your message here]
+                    [Your heartfelt birthday letter goes here. You can make this 
+                    as long as you want; the paper will grow with your text.]
                 </p>
                 
                 <div class="polaroid-row">
-                    <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
-                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn's grace</p></div>
+                    <div class="polaroid"><img src="kazuha1.jpg"><p>Wandering Heart</p></div>
+                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn Grace</p></div>
                 </div>
-            </article>
+            </div>
         </div>
+        <div class="leaf-container" id="leaf-container"></div>
     </div>
 
     <script>
-        function openLetter() {
-            document.getElementById('envelope-wrapper').classList.add('open-anim');
+        function openScroll() {
+            document.getElementById('intro-screen').classList.add('fade-out');
             setTimeout(() => {
-                document.getElementById('letter-overlay').classList.add('visible');
-                document.body.classList.add('bg-active');
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('scroll-section').classList.remove('hidden');
+                document.getElementById('scroll-section').classList.add('fade-in');
                 generateLeaves();
-            }, 800);
+            }, 500);
         }
 
         function generateLeaves() {
@@ -62,8 +55,9 @@
             for(let i=0; i<15; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                leaf.innerHTML = `<img src="leaf1.png" style="width: 30px; height: auto;">`;
+                leaf.innerHTML = '🍁'; // Simple emoji for now to ensure it works
                 leaf.style.left = Math.random() * 100 + 'vw';
+                leaf.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 leaf.style.animationDelay = Math.random() * 5 + 's';
                 container.appendChild(leaf);
             }
