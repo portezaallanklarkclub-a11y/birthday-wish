@@ -9,7 +9,6 @@
 <body>
 
     <div class="bg-overlay"></div>
-
     <div id="leaf-container"></div>
 
     <div id="intro-screen" class="centered">
@@ -29,77 +28,53 @@
             <div class="scroll-content">
                 <h2>To my Dearest Charise,</h2>
                 <p class="letter-text">
-                    [Insert your message for Charise here!]
+                    [Your birthday letter goes here!]
                 </p>
                 
                 <div class="polaroid-row">
-                    <div class="polaroid">
-                        <img src="kazuha1.jpg" alt="Kazuha 1">
-                        <p>A wandering heart</p>
-                    </div>
-                    <div class="polaroid">
-                        <img src="kazuha2.jpg" alt="Kazuha 2">
-                        <p>Autumn's grace</p>
-                    </div>
+                    <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
+                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn's grace</p></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        /**
-         * Act 1: Handles the transition from the intro card to the letter.
-         */
         function openScroll() {
             const intro = document.getElementById('intro-screen');
             const scroll = document.getElementById('scroll-section');
             
-            // Start the fade out of the first card
             intro.classList.add('fade-out');
             
             setTimeout(() => {
                 intro.style.display = 'none';
                 scroll.classList.remove('hidden');
                 scroll.classList.add('fade-in');
-                
-                // Start the leaf animation once the letter appears
                 generateLeaves();
             }, 600);
         }
 
-        /**
-         * Act 2: Generates the massive, cradled maple leaves.
-         */
         function generateLeaves() {
             const container = document.getElementById('leaf-container');
             const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            // We use 10 leaves because they are now much LARGER.
-            for(let i=0; i<10; i++) {
+            // 15 leaves is the "Sweet Spot" for this size
+            for(let i=0; i<15; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                
-                // Randomly select one of your two leaf images
                 let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
                 
-                // --- CINEMATIC SIZE: 160px to 230px ---
-                let size = Math.random() * 70 + 160; 
-                
+                // RESTORED SIZE: 100px to 130px
+                let size = Math.random() * 30 + 100; 
                 leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
                 
-                // Spread them randomly across the width of the screen
                 leaf.style.left = Math.random() * 100 + 'vw';
                 
-                // Timing for the "Cradled" effect
-                let fallDur = (Math.random() * 10 + 22) + 's'; // Slow, heavy descent
-                let swayDur = (Math.random() * 2 + 5) + 's';   // Gentle side-to-side sway
-                let delay = (Math.random() * 15) + 's';        // Staggers the start times
+                let fallDur = (Math.random() * 8 + 18) + 's'; 
+                let swayDur = (Math.random() * 2 + 4) + 's';
+                let delay = (Math.random() * 12) + 's';
 
-                // Apply the combined animations
-                leaf.style.animation = `
-                    fall ${fallDur} linear infinite ${delay}, 
-                    sway ${swayDur} ease-in-out infinite ${delay}
-                `;
+                leaf.style.animation = `fall ${fallDur} linear infinite ${delay}, sway ${swayDur} ease-in-out infinite ${delay}`;
                 
                 container.appendChild(leaf);
             }
