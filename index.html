@@ -1,27 +1,407 @@
-<div class="scene">
-    <div id="seal-container" onclick="unrollScroll()">
-        <div class="maple-seal">🍁</div>
-        <p>A message from the wind...</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message Carried by the Wind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --maple-red: #b33939;
+            --autumn-gold: #e1ad01;
+            --kazuha-gray: #3d3d3d;
+            --paper-white: #fdfaf6;
+            --scroll-silk: #d4c4a8;
+            --wood-dark: #3e2723;
+        }
+
+        body {
+            background-color: #121212;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            color: var(--kazuha-gray);
+        }
+
+        .serif {
+            font-family: 'Noto+Serif+JP', serif;
+        }
+
+        /* Animated Background Leaves */
+        .leaf-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .leaf {
+            position: absolute;
+            background-image: url('leaf2.png'); /* Using your uploaded image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            animation: fall linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(-20vh) translateX(0) rotate(0deg) rotateY(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { 
+                transform: translateY(120vh) translateX(150px) rotate(720deg) rotateY(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        /* Scroll Structure */
+        .scroll-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin: 40px auto;
+            perspective: 1000px;
+        }
+
+        .scroll-roller {
+            height: 35px;
+            background: linear-gradient(to bottom, #5d4037, var(--wood-dark), #5d4037);
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 20;
+        }
+
+        .scroll-roller::before, .scroll-roller::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            width: 15px;
+            height: 45px;
+            background: var(--autumn-gold);
+            border-radius: 2px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+        .scroll-roller::before { left: -5px; }
+        .scroll-roller::after { right: -5px; }
+
+        .scroll-body {
+            background-color: var(--scroll-silk);
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background-image: url("https://www.transparenttextures.com/patterns/silk.png");
+            min-height: 100px;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            max-height: 80px; /* Initially "rolled" */
+        }
+
+        .scroll-body.open {
+            max-height: 2500px;
+            padding-bottom: 40px;
+        }
+
+        .inner-paper {
+            background-color: var(--paper-white);
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            min-height: 300px;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(179, 57, 57, 0.08) 0, transparent 200px);
+        }
+
+        /* Image Placeholder Styling */
+        .image-frame {
+            border: 8px solid #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #eee;
+            aspect-ratio: 16/9;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .placeholder-text {
+            color: #aaa;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Tassel Animation */
+        .tassel {
+            width: 2px;
+            height: 60px;
+            background: var(--maple-red);
+            position: absolute;
+            bottom: -50px;
+            transform-origin: top;
+            animation: sway 3s ease-in-out infinite;
+        }
+        .tassel::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: -4px;
+            width: 10px;
+            height: 20px;
+            background: var(--maple-red);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .hidden-content {
+            opacity: 0;
+            transition: opacity 1s ease 0.5s;
+        }
+
+        .revealed {
+            opacity: 1;
+        }
+
+        .seal {
+            width: 50px;
+            height: 50px;
+            background: var(--maple-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            border: 3px solid var(--autumn-gold);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .seal:hover {
+            transform: scale(1.1);
+        }
+
+        .wind-particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(1px);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="leaf-container" id="leaf-container"></div>
+
+    <!-- Introduction -->
+    <div id="intro-screen" class="text-center text-white mb-12">
+        <h1 class="text-3xl md:text-4xl serif mb-4 opacity-0 transition-opacity duration-1000" id="title-text">
+            Unroll the path ahead...
+        </h1>
     </div>
 
-    <div id="scroll" class="scroll-closed">
-        <div class="scroll-roller top"></div>
+    <!-- Scroll Structure -->
+    <div class="scroll-wrapper w-full">
+        <!-- Top Roller -->
+        <div class="scroll-roller"></div>
         
-        <div class="scroll-content">
-            <div class="scroll-text">
-                <h1>To a Kind Soul,</h1>
-                <p class="haiku">
-                    <em>"Leaves dance on the breeze,<br>
-                    A new year turns like the tide,<br>
-                    Nature smiles on you."</em>
-                </p>
-                <div class="letter-body">
-                    <p>Like the wandering wind, you bring peace wherever you go. I hope your day is as beautiful as an Inazuman autumn.</p>
-                    <p>— Your Wanderer</p>
+        <!-- Scroll Body -->
+        <div class="scroll-body" id="scroll-body">
+            <!-- Seal to open -->
+            <div id="seal-container" class="py-2">
+                <div class="seal" id="scroll-seal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
+                    </svg>
+                </div>
+                <p class="text-center text-xs serif uppercase tracking-widest text-brown-800 opacity-60">Break the Seal</p>
+            </div>
+
+            <!-- Inner Content -->
+            <div id="inner-content" class="hidden-content">
+                <div class="inner-paper shadow-inner">
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl serif font-bold text-red-900 mb-2">Happy Birthday</h2>
+                        <div class="flex justify-center items-center gap-2">
+                            <div class="w-10 h-px bg-red-800/30"></div>
+                            <span class="text-red-800 text-xl">🍁</span>
+                            <div class="w-10 h-px bg-red-800/30"></div>
+                        </div>
+                    </div>
+
+                    <!-- IMAGE PLACEHOLDER 1 -->
+                    <div class="image-frame">
+                        <img src="" alt="" onerror="this.style.display='none';">
+                        <div class="placeholder-text px-4">Memories of the Journey<br><span class="text-[10px] mt-2 block">(Replace with image URL)</span></div>
+                    </div>
+
+                    <div class="space-y-8 text-xl leading-relaxed text-gray-800 italic serif text-center my-8">
+                        <p id="poem-1" class="opacity-0 transition-opacity duration-1000">"Maple leaves turn red,"</p>
+                        <p id="poem-2" class="opacity-0 transition-opacity duration-1000">"Wild winds whisper through the trees,"</p>
+                        <p id="poem-3" class="opacity-0 transition-opacity duration-1000">"Wandering hearts rest."</p>
+                    </div>
+
+                    <!-- IMAGE PLACEHOLDER 2 -->
+                    <div class="image-frame opacity-0 transition-opacity duration-1000" id="img-placeholder-2">
+                        <img src="" alt="" onerror="this.style.display='none';">
+                        <div class="placeholder-text px-4">A Quiet Moment<br><span class="text-[10px] mt-2 block">(Replace with image URL)</span></div>
+                    </div>
+
+                    <div class="mt-8 space-y-6 text-gray-700 text-lg leading-loose border-t border-red-100 pt-8">
+                        <p class="opacity-0 transition-opacity duration-1000" id="msg-1">
+                            Nature marks this moment with a gentle sigh. Like the steady flow of a mountain stream or the silent drift of clouds, your journey continues into a new dawn.
+                        </p>
+                        <p class="opacity-0 transition-opacity duration-1000" id="msg-2">
+                            May your spirit be as free as the autumn breeze, and may every path you take lead to a horizon filled with peace.
+                        </p>
+                    </div>
+
+                    <div class="mt-16 text-right border-r-4 border-red-800 pr-4">
+                        <p class="text-xs text-gray-500 uppercase tracking-tighter">Written upon the wind,</p>
+                        <p class="text-2xl serif font-bold text-red-950">Kaedehara Kazuha</p>
+                    </div>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="mt-10 flex justify-center">
+                    <button id="wind-button" class="px-8 py-3 bg-red-900 text-white hover:bg-red-800 transition-all rounded-sm serif text-sm uppercase tracking-widest shadow-lg">
+                        Listen to the Wind
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="scroll-roller bottom"></div>
+        <!-- Bottom Roller -->
+        <div class="scroll-roller">
+            <div class="tassel" style="left: 40px;"></div>
+            <div class="tassel" style="right: 40px;"></div>
+        </div>
     </div>
-</div>
+
+    <div id="footer-note" class="text-center text-gray-500 mt-12 opacity-0 text-sm italic serif">
+        "The wind knows all."
+    </div>
+
+    <script>
+        const leafContainer = document.getElementById('leaf-container');
+        const scrollSeal = document.getElementById('scroll-seal');
+        const sealContainer = document.getElementById('seal-container');
+        const scrollBody = document.getElementById('scroll-body');
+        const innerContent = document.getElementById('inner-content');
+        const windBtn = document.getElementById('wind-button');
+
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('title-text').style.opacity = '1';
+            }, 500);
+            createLeaves(8); // Slightly fewer leaves since they are much larger now
+        };
+
+        function createLeaves(count) {
+            for (let i = 0; i < count; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                resetLeaf(leaf);
+                leafContainer.appendChild(leaf);
+            }
+        }
+
+        function resetLeaf(leaf) {
+            const startX = Math.random() * window.innerWidth;
+            const duration = 10 + Math.random() * 15; // Slower fall for realism
+            const size = 60 + Math.random() * 80;    // Significantly larger (60px to 140px)
+            
+            leaf.style.left = `${startX}px`;
+            leaf.style.width = `${size}px`;
+            leaf.style.height = `${size}px`;
+            leaf.style.animationDuration = `${duration}s`;
+            leaf.style.animationDelay = `-${Math.random() * 20}s`; // Use negative delay so they start mid-fall
+        }
+
+        scrollSeal.addEventListener('click', () => {
+            sealContainer.style.opacity = '0';
+            setTimeout(() => sealContainer.style.display = 'none', 500);
+            
+            scrollBody.classList.add('open');
+            innerContent.classList.add('revealed');
+            
+            revealStory();
+        });
+
+        async function revealStory() {
+            const elements = ['poem-1', 'poem-2', 'poem-3', 'img-placeholder-2', 'msg-1', 'msg-2', 'footer-note'];
+            for (const id of elements) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 1000));
+                }
+            }
+        }
+
+        windBtn.addEventListener('click', () => {
+            scrollBody.style.transform = 'scale(1.01) translateY(-5px)';
+            setTimeout(() => scrollBody.style.transform = '', 300);
+
+            for(let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'wind-particle';
+                const size = Math.random() * 3 + 1;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = '50%';
+                p.style.top = '50%';
+                document.body.appendChild(p);
+
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 100 + Math.random() * 200;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist;
+
+                p.animate([
+                    { transform: 'translate(0, 0)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px)`, opacity: 0 }
+                ], {
+                    duration: 1000 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0, .5, .5, 1)'
+                }).onfinish = () => p.remove();
+            }
+            createLeaves(3);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const leaves = document.querySelectorAll('.leaf');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            leaves.forEach(leaf => {
+                const speed = parseFloat(leaf.style.width) / 20;
+                leaf.style.marginLeft = `${(x - 0.5) * 50 * speed}px`;
+                leaf.style.marginTop = `${(y - 0.5) * 50 * speed}px`;
+            });
+        });
+    </script>
+</body>
+</html>
