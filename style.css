@@ -1,9 +1,10 @@
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100vh;
     font-family: 'Georgia', serif;
-    background: #2c1a1a; /* Dark backup color */
+    color: #5d2a18;
+    overflow-x: hidden;
 }
 
 .bg-overlay {
@@ -12,7 +13,7 @@ body, html {
     background-image: url('kazuha-bg.jpg');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.7);
+    filter: brightness(0.6) blur(2px);
     z-index: -1;
 }
 
@@ -24,59 +25,94 @@ body, html {
 }
 
 .intro-card {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 40px;
+    background: rgba(253, 252, 240, 0.95);
+    padding: 50px;
     text-align: center;
-    border: 2px solid #ba2d1e;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    border: 1px solid #ba2d1e;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    max-width: 400px;
+}
+
+.haiku {
+    font-style: italic;
+    margin: 25px 0;
+    line-height: 1.8;
+    color: #ba2d1e;
 }
 
 .open-btn {
     background: #ba2d1e;
     color: white;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    padding: 12px 25px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
     cursor: pointer;
-    margin-top: 20px;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
 }
 
-.open-btn:hover { transform: scale(1.1); }
+.open-btn:hover {
+    background: #8e1f14;
+    transform: translateY(-3px);
+}
 
-/* The Scroll Effect */
+/* Scroll Design */
 .scroll-paper {
-    background: #fdfcf0; /* Aged paper color */
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 60px 40px;
-    border-left: 15px solid #d4a373; /* Scroll "wooden" edges */
-    border-right: 15px solid #d4a373;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-    min-height: 80vh;
+    background: #fdfcf0;
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 60px 45px;
+    border-left: 12px solid #d4a373;
+    border-right: 12px solid #d4a373;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    position: relative;
+    z-index: 10;
 }
 
-.hidden { display: none; opacity: 0; }
+.letter-text {
+    line-height: 2;
+    font-size: 1.15rem;
+    white-space: pre-wrap; /* Keeps your paragraph breaks */
+}
 
-.fade-in { animation: fadeIn 1.5s forwards; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Animations */
+.hidden { display: none; }
+.fade-in { animation: fadeIn 2s forwards; }
+.fade-out { animation: fadeOut 0.6s forwards; }
 
-.fade-out { animation: fadeOut 0.5s forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
 /* Polaroids */
-.polaroid-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
-.polaroid { background: white; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transform: rotate(-2deg); width: 180px; }
-.polaroid img { width: 100%; height: auto; }
-.polaroid p { text-align: center; font-size: 0.8rem; margin-top: 10px; font-family: cursive; }
+.polaroid-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.polaroid {
+    background: white;
+    padding: 12px 12px 30px 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transform: rotate(-2deg);
+    width: 200px;
+}
+
+.polaroid:nth-child(even) { transform: rotate(3deg); }
+.polaroid img { width: 100%; height: 180px; object-fit: cover; }
+.polaroid p { text-align: center; font-family: cursive; margin-top: 10px; }
 
 /* Leaves */
 .leaf {
     position: fixed;
-    top: -50px;
-    color: #ba2d1e;
-    font-size: 30px;
-    z-index: 100;
+    top: -60px;
+    z-index: 1000;
+    pointer-events: none;
     animation: fall linear infinite;
 }
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
