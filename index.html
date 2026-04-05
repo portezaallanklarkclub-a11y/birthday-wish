@@ -55,21 +55,22 @@
             const container = document.getElementById('leaf-container');
             const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            for(let i=0; i<25; i++) {
+            // Reduced count for a more "peaceful" look
+            for(let i=0; i<12; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
                 
                 let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
                 
-                // MUCH LARGER LEAVES (80px to 100px)
-                let size = Math.random() * 20 + 80; 
-                leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto; opacity: 0.9;">`;
+                // REALISTIC LARGE SIZE (100px to 130px)
+                let size = Math.random() * 30 + 100; 
+                leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
                 
                 leaf.style.left = Math.random() * 100 + 'vw';
                 
-                // SLOW & VARIED SPEEDS
-                leaf.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                leaf.style.animationDelay = (Math.random() * 12) + 's';
+                // EXTREMELY SLOW FALL (20 to 30 seconds)
+                leaf.style.animationDuration = (Math.random() * 10 + 20) + 's, ' + (Math.random() * 2 + 4) + 's';
+                leaf.style.animationDelay = (Math.random() * 15) + 's';
                 
                 container.appendChild(leaf);
             }
