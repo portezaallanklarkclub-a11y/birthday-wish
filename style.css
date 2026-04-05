@@ -1,80 +1,122 @@
 /* --- Core Setup --- */
 body, html {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     min-height: 100vh;
+    background: #1a0f0f;
     font-family: 'Georgia', serif;
-    background-color: #1a0f0f;
     overflow-x: hidden;
 }
 
-/* --- The Background --- */
+#scroll-toggle { display: none; } /* Hide the actual checkbox */
+
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('kazuha-bg.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('kazuha-bg.jpg') center/cover;
     z-index: -1;
 }
 
-/* --- The Scroll Paper --- */
-.scroll-paper {
-    background: #fdfcf0;
-    max-width: 600px;
-    margin: 60px auto;
-    padding: 50px 40px;
-    border-left: 12px solid #d4a373;
-    border-right: 12px solid #d4a373;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    position: relative;
-    z-index: 100; /* Stays in front of leaves */
-    text-align: center;
+/* --- The Scroll Mechanics --- */
+.scroll-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    cursor: pointer;
 }
 
-.letter-text { line-height: 1.8; color: #4a2113; white-space: pre-wrap; font-size: 1.1rem; }
-.haiku { font-style: italic; color: #ba2d1e; margin: 20px 0; border-bottom: 1px solid #ba2d1e; padding-bottom: 20px; }
+.scroll-wrapper {
+    width: 320px;
+    position: relative;
+    z-index: 100;
+    transition: transform 0.5s ease;
+}
 
-/* --- The Leaves (No JavaScript needed) --- */
-#leaf-container {
+.scroll-body {
+    height: 0; /* CLOSED STATE */
+    background: #fdfcf0;
+    overflow: hidden;
+    transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 12px solid #d4a373;
+    border-right: 12px solid #d4a373;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+}
+
+.roller {
+    height: 35px;
+    background: #8b5e34;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* --- THE REVEAL: When checkbox is checked --- */
+#scroll-toggle:checked ~ .scroll-container .scroll-body {
+    height: 650px; /* OPEN STATE */
+    padding: 40px 20px;
+}
+
+#scroll-toggle:checked ~ .scroll-container .hint-text,
+#scroll-toggle:checked ~ .scroll-container .ribbon {
+    opacity: 0; /* Hide ribbon and hint when open */
+}
+
+/* --- LEAF PHYSICS: The Realistic Cradle --- */
+.leaf-system {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 10;
+    display: none; /* Hidden until opened */
+}
+
+#scroll-toggle:checked ~ .scroll-container .leaf-system {
+    display: block;
 }
 
 .leaf {
     position: absolute;
-    top: -100px;
+    top: -150px;
     opacity: 0;
-    animation: fall 10s linear infinite, sway 4s ease-in-out infinite;
+    /* Combine Fall (Gravity) and Sway (Cradle) */
+    animation: fall 12s linear infinite, cradle 4s ease-in-out infinite;
 }
 
-.leaf img { width: 100px; height: auto; }
+.leaf img { width: 110px; height: auto; }
 
-/* Simple Gravity */
 @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
+    0% { top: -150px; opacity: 0; }
+    15% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    100% { top: 110vh; opacity: 0; }
 }
 
-/* Simple Sway */
-@keyframes sway {
-    0%, 100% { margin-left: -30px; }
-    50% { margin-left: 30px; }
+@keyframes cradle {
+    0%, 100% { transform: translateX(-60px) rotate(-25deg); }
+    50% { transform: translateX(60px) rotate(25deg); }
 }
 
-/* Randomizing the leaves manually in CSS */
-.leaf:nth-child(1) { left: 10%; animation-delay: 0s; }
-.leaf:nth-child(2) { left: 30%; animation-delay: 2s; animation-duration: 12s; }
-.leaf:nth-child(3) { left: 50%; animation-delay: 4s; animation-duration: 9s; }
-.leaf:nth-child(4) { left: 70%; animation-delay: 1s; animation-duration: 11s; }
-.leaf:nth-child(5) { left: 90%; animation-delay: 5s; animation-duration: 13s; }
-.leaf:nth-child(6) { left: 20%; animation-delay: 3s; animation-duration: 10s; }
-.leaf:nth-child(7) { left: 80%; animation-delay: 6s; animation-duration: 14s; }
-.leaf:nth-child(8) { left: 40%; animation-delay: 0.5s; animation-duration: 15s; }
+/* Randomize leaf timing */
+.leaf:nth-child(1) { left: 15%; animation-delay: 0s; }
+.leaf:nth-child(2) { left: 45%; animation-delay: 3s; animation-duration: 14s; }
+.leaf:nth-child(3) { left: 75%; animation-delay: 1s; animation-duration: 11s; }
+.leaf:nth-child(4) { left: 25%; animation-delay: 5s; }
+.leaf:nth-child(5) { left: 85%; animation-delay: 2s; animation-duration: 15s; }
 
-/* --- Visuals --- */
-.polaroid-row { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
-.polaroid { background: white; padding: 10px 10px 25px 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: rotate(-2deg); width: 180px; }
-.polaroid img { width: 100%; height: auto; }
+/* --- Visual Details --- */
+.letter-content { opacity: 0; transition: opacity 1s 1s; text-align: center; color: #4a2113; }
+#scroll-toggle:checked ~ .scroll-container .letter-content { opacity: 1; }
+
+.ribbon {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 120%;
+    background: #ba2d1e;
+    transform: translate(-50%, -50%);
+    z-index: 110;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.hint-text {
+    position: absolute;
+    bottom: -40px; width: 100%; text-align: center;
+    color: white; font-style: italic; font-size: 0.9rem;
+}
