@@ -1,34 +1,84 @@
-/* Ensure the html and body take up the full height of the page */
+/* 1. THE BASE LAYER: THE IMAGE */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%; /* Important: allows the body to grow with the scroll */
-    display: flex;
-    flex-direction: column;
-}
-
-.bg-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* This ensures the image covers the screen without stretching weirdly */
-    background-image: url('kazuha-bg.jpg');
-    background-size: cover; 
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: brightness(0.4) contrast(1.1);
-    z-index: -1; /* Keeps it behind everything */
-}
-
-/* Adjust the scroll section to ensure it doesn't get cut off */
-#scroll-section {
-    width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 50px; /* Gives room at the bottom of the letter */
+    font-family: 'Georgia', serif;
+    color: #5d2a18;
+    
+    /* This sets the image as the actual background of the page */
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('kazuha-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Keeps image still while scrolling */
+    background-repeat: no-repeat;
+    background-color: #1a0f0f; /* Fallback color only */
 }
+
+/* 2. INTRO SCREEN */
+.centered {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-card {
+    background: rgba(253, 252, 240, 0.95);
+    padding: 50px;
+    text-align: center;
+    border: 1px solid #ba2d1e;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    max-width: 400px;
+    z-index: 100;
+}
+
+/* 3. THE SCROLL */
+.scroll-paper {
+    background: #fdfcf0;
+    max-width: 650px;
+    margin: 80px auto;
+    padding: 60px 45px;
+    border-left: 15px solid #d4a373;
+    border-right: 15px solid #d4a373;
+    box-shadow: 0 0 60px rgba(0,0,0,0.9);
+    position: relative;
+    z-index: 50; 
+}
+
+.letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; }
+
+/* 4. THE CRADLED LEAVES */
+.leaf {
+    position: fixed;
+    top: -20vh; 
+    z-index: 10; /* Between the background and the scroll */
+    pointer-events: none;
+    animation: fall linear infinite, cradle ease-in-out infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotateX(0deg) rotateY(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(125vh) rotateX(720deg) rotateY(360deg); opacity: 0; }
+}
+
+@keyframes cradle {
+    0%, 100% { margin-left: -80px; transform: rotate(-20deg); }
+    50% { margin-left: 80px; transform: rotate(20deg); }
+}
+
+/* Transitions & Helpers */
+.hidden { display: none; }
+.fade-in { animation: fadeIn 2s forwards; }
+.fade-out { animation: fadeOut 0.6s forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* Polaroids */
+.polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); transform: rotate(-2deg); width: 200px; }
+.polaroid img { width: 100%; height: 180px; object-fit: cover; }
+.polaroid p { text-align: center; font-family: cursive; margin-top: 10px; }
