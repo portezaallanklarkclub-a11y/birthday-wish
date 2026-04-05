@@ -8,6 +8,8 @@
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <div id="intro-screen" class="centered">
         <div class="intro-card">
             <h1>Happy Birthday!</h1>
@@ -27,7 +29,7 @@
             <div class="scroll-content">
                 <h2>To my Dearest [Name],</h2>
                 <p class="letter-text">
-                    [Insert your full birthday letter here!]
+                    [Insert your birthday letter here!]
                 </p>
                 
                 <div class="polaroid-row">
@@ -51,28 +53,23 @@
 
         function generateLeaves() {
             const container = document.getElementById('leaf-container');
+            const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            // Create a mix of both leaf images you provided
-            const leaves = ['leaf1.png', 'leaf2.png'];
-            
-            for(let i=0; i<20; i++) {
+            for(let i=0; i<25; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
                 
-                // Randomly select one of your leaf images
-                let randomLeaf = leaves[Math.floor(Math.random() * leaves.length)];
+                let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
                 
-                // LARGER SIZE (Set to 60px wide)
-                leaf.innerHTML = `<img src="${randomLeaf}" style="width: 60px; height: auto;">`;
+                // MUCH LARGER LEAVES (80px to 100px)
+                let size = Math.random() * 20 + 80; 
+                leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto; opacity: 0.9;">`;
                 
-                // Randomize position across the whole screen width
                 leaf.style.left = Math.random() * 100 + 'vw';
                 
-                // MUCH SLOWER (A duration between 12 and 20 seconds)
-                leaf.style.animationDuration = (Math.random() * 8 + 12) + 's';
-                
-                // Staggered delay for that natural "tree" fall
-                leaf.style.animationDelay = Math.random() * 10 + 's';
+                // SLOW & VARIED SPEEDS
+                leaf.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                leaf.style.animationDelay = (Math.random() * 12) + 's';
                 
                 container.appendChild(leaf);
             }
