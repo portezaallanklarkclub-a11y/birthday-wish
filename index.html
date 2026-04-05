@@ -8,8 +8,13 @@
 </head>
 <body>
 
+    <!-- LAYER 0: The Background -->
     <div class="bg-overlay"></div>
 
+    <!-- LAYER 1: The Leaves (Hidden until button is clicked) -->
+    <div id="leaf-container"></div>
+
+    <!-- Act 1: Intro Screen -->
     <div id="intro-screen" class="centered">
         <div class="intro-card">
             <h1>Happy Birthday!</h1>
@@ -22,14 +27,13 @@
         </div>
     </div>
 
+    <!-- Act 2: The Letter (LAYER 2) -->
     <div id="scroll-section" class="hidden">
-        <div id="leaf-container"></div>
-        
         <div class="scroll-paper">
             <div class="scroll-content">
                 <h2>To my Dearest Charise,</h2>
                 <p class="letter-text">
-                    [Insert your message here!]
+                    [Your birthday letter goes here!]
                 </p>
                 
                 <div class="polaroid-row">
@@ -59,27 +63,23 @@
             const container = document.getElementById('leaf-container');
             const leafImages = ['leaf1.png', 'leaf2.png'];
             
-            // Generate 12 large leaves
-            for(let i=0; i<12; i++) {
+            for(let i=0; i<15; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                
                 let imgNum = leafImages[Math.floor(Math.random() * leafImages.length)];
-                let size = Math.random() * 40 + 100; // Large size (100px - 140px)
                 
+                // Stable Size: 100px
+                let size = Math.random() * 30 + 90; 
                 leaf.innerHTML = `<img src="${imgNum}" style="width: ${size}px; height: auto;">`;
                 
-                // Random position from left to right
                 leaf.style.left = Math.random() * 100 + 'vw';
                 
-                // Randomized timing for a natural look
-                let fallDuration = (Math.random() * 10 + 20) + 's';
-                let swayDuration = (Math.random() * 2 + 4) + 's';
-                let delay = (Math.random() * 15) + 's';
+                // Simple Gravity & Sway
+                let fallDur = (Math.random() * 5 + 15) + 's'; 
+                let swayDur = (Math.random() * 2 + 3) + 's';
+                let delay = (Math.random() * 10) + 's';
 
-                // Assigning the animations directly
-                leaf.style.animation = `fall ${fallDuration} linear infinite ${delay}, 
-                                        sway ${swayDuration} ease-in-out infinite ${delay}`;
+                leaf.style.animation = `fall ${fallDur} linear infinite ${delay}, sway ${swayDur} ease-in-out infinite ${delay}`;
                 
                 container.appendChild(leaf);
             }
