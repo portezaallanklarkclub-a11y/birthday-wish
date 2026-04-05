@@ -4,10 +4,18 @@ body, html {
     min-height: 100vh;
     font-family: 'Georgia', serif;
     color: #5d2a18;
-    overflow-x: hidden;
-    
-    /* --- BACKGROUND REMOVED & REPLACED WITH SOLID COLOR --- */
-    background-color: #2c1a1a; /* A deep, warm reddish-black, like night */
+    background-color: #1a0f0f; /* Fallback */
+}
+
+/* --- BACKGROUND IS BACK --- */
+.bg-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('kazuha-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5); /* Dimmed so text is readable */
+    z-index: -1;
 }
 
 .centered {
@@ -18,12 +26,13 @@ body, html {
 }
 
 .intro-card {
-    background: rgba(253, 252, 240, 0.98); /* Slightly more opaque paper color */
+    background: rgba(253, 252, 240, 0.95);
     padding: 50px;
     text-align: center;
     border: 1px solid #ba2d1e;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     max-width: 400px;
+    z-index: 100;
 }
 
 .haiku {
@@ -38,76 +47,55 @@ body, html {
     color: white;
     border: none;
     padding: 12px 25px;
-    font-family: 'Georgia', serif;
-    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-family: 'Georgia', serif;
 }
 
-.open-btn:hover {
-    background: #8e1f14;
-    transform: translateY(-3px);
-}
-
-/* Scroll Design */
+/* Scroll Paper */
 .scroll-paper {
-    background: #fdfcf0; /* Warm paper color */
+    background: #fdfcf0;
     max-width: 650px;
-    margin: 60px auto;
+    margin: 80px auto;
     padding: 60px 45px;
-    border-left: 12px solid #d4a373;
-    border-right: 12px solid #d4a373;
-    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    border-left: 15px solid #d4a373;
+    border-right: 15px solid #d4a373;
+    box-shadow: 0 0 50px rgba(0,0,0,0.7);
     position: relative;
-    z-index: 10; /* Keeps the text on top of the leaves */
+    z-index: 50; /* Above the falling leaves */
 }
 
-.letter-text {
-    line-height: 2;
-    font-size: 1.15rem;
-    white-space: pre-wrap; /* Keeps your paragraph breaks */
-}
+.letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; }
 
 /* Animations */
 .hidden { display: none; }
 .fade-in { animation: fadeIn 2s forwards; }
 .fade-out { animation: fadeOut 0.6s forwards; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-/* Polaroids */
-.polaroid-row {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 50px;
-    flex-wrap: wrap;
-}
-
-.polaroid {
-    background: white;
-    padding: 12px 12px 30px 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    transform: rotate(-2deg);
-    width: 200px;
-}
-
-.polaroid:nth-child(even) { transform: rotate(3deg); }
-.polaroid img { width: 100%; height: 180px; object-fit: cover; }
-.polaroid p { text-align: center; font-family: cursive; margin-top: 10px; }
-
-/* Leaves (Act 2) */
+/* --- THE FALLING LEAF SYSTEM --- */
 .leaf {
     position: fixed;
-    top: -80px; /* Hidden above screen */
-    z-index: 1; /* Sits behind the scroll paper */
+    top: -15vh; /* Start well above the window */
+    z-index: 10; /* Behind the scroll, above the background */
     pointer-events: none;
-    animation: fall linear infinite;
+    /* Combined falling and swaying animation */
+    animation: fall linear infinite, sway ease-in-out infinite;
 }
 
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); }
-    /* A very slow, gentle descent with lots of rotation */
-    100% { transform: translateY(115vh) rotate(540deg); } 
+    100% { transform: translateY(120vh) rotate(720deg); }
 }
+
+@keyframes sway {
+    0%, 100% { margin-left: 0px; }
+    50% { margin-left: 80px; } /* Drifts to the side as it falls */
+}
+
+/* Polaroids */
+.polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: rotate(-2deg); width: 200px; }
+.polaroid img { width: 100%; height: 180px; object-fit: cover; }
+.polaroid p { text-align: center; font-family: cursive; margin-top: 10px; }
