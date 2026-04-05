@@ -5,16 +5,9 @@ body, html {
     font-family: 'Georgia', serif;
     color: #5d2a18;
     overflow-x: hidden;
-}
-
-.bg-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('kazuha-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.6) blur(2px);
-    z-index: -1;
+    
+    /* --- BACKGROUND REMOVED & REPLACED WITH SOLID COLOR --- */
+    background-color: #2c1a1a; /* A deep, warm reddish-black, like night */
 }
 
 .centered {
@@ -25,7 +18,7 @@ body, html {
 }
 
 .intro-card {
-    background: rgba(253, 252, 240, 0.95);
+    background: rgba(253, 252, 240, 0.98); /* Slightly more opaque paper color */
     padding: 50px;
     text-align: center;
     border: 1px solid #ba2d1e;
@@ -58,7 +51,7 @@ body, html {
 
 /* Scroll Design */
 .scroll-paper {
-    background: #fdfcf0;
+    background: #fdfcf0; /* Warm paper color */
     max-width: 650px;
     margin: 60px auto;
     padding: 60px 45px;
@@ -66,7 +59,7 @@ body, html {
     border-right: 12px solid #d4a373;
     box-shadow: 0 0 40px rgba(0,0,0,0.6);
     position: relative;
-    z-index: 10;
+    z-index: 10; /* Keeps the text on top of the leaves */
 }
 
 .letter-text {
@@ -104,15 +97,17 @@ body, html {
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
 .polaroid p { text-align: center; font-family: cursive; margin-top: 10px; }
 
-/* Leaves */
+/* Leaves (Act 2) */
 .leaf {
     position: fixed;
-    top: -60px;
-    z-index: 1000;
+    top: -80px; /* Hidden above screen */
+    z-index: 1; /* Sits behind the scroll paper */
     pointer-events: none;
     animation: fall linear infinite;
 }
 
 @keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); }
+    0% { transform: translateY(0) rotate(0deg); }
+    /* A very slow, gentle descent with lots of rotation */
+    100% { transform: translateY(115vh) rotate(540deg); } 
 }
