@@ -1,14 +1,12 @@
-/* --- THE FOUNDATION --- */
 body, html {
     margin: 0;
     padding: 0;
     min-height: 100vh;
     font-family: 'Georgia', serif;
     background-color: #1a0f0f;
-    overflow-x: hidden; /* Prevents horizontal scroll from large leaves */
+    overflow-x: hidden;
 }
 
-/* --- LAYER 0: THE SCENERY --- */
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -16,142 +14,57 @@ body, html {
     background-size: cover;
     background-position: center;
     filter: brightness(0.4);
-    z-index: 1; /* Bottom Layer */
+    z-index: 1;
 }
 
-/* --- LAYER 1: THE ATMOSPHERE (LEAVES) --- */
 #leaf-container {
     position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    pointer-events: none; /* Allows clicking the letter through the leaves */
-    z-index: 10; /* Behind the letter (z-index 50) */
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 10; 
     overflow: hidden;
 }
 
 .leaf {
     position: absolute;
-    top: 0; /* Starting point fixed at the top */
+    top: 0;
     opacity: 0;
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5)); /* Heavier shadow for larger leaves */
-    will-change: transform;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4));
 }
 
-/* THE WIND SWAY (Cradling effect for massive leaves) */
+/* RESTORED SWAY: Natural and subtle side-to-side drift */
 @keyframes sway {
     0%, 100% { 
-        margin-left: -200px; /* Wider path for larger scale */
-        transform: rotate(-35deg); 
+        margin-left: -80px; 
+        transform: rotate(-20deg); 
     }
     50% { 
-        margin-left: 200px; 
-        transform: rotate(35deg); 
+        margin-left: 80px; 
+        transform: rotate(20deg); 
     }
 }
 
-/* THE FALLING (Gravity effect) */
 @keyframes fall {
-    0% { 
-        /* Starts well above the view to accommodate the 200px+ size */
-        transform: translateY(-300px) rotateX(0deg); 
-        opacity: 0; 
-    }
+    0% { transform: translateY(-150px) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     90% { opacity: 1; }
-    100% { 
-        transform: translateY(120vh) rotateX(720deg); 
-        opacity: 0; 
-    }
+    100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
 }
 
-/* --- LAYER 2: THE LETTER (SCROLL) --- */
-.scroll-paper {
-    background: #fdfcf0;
-    max-width: 650px;
-    margin: 80px auto;
-    padding: 60px 45px;
-    border-left: 15px solid #d4a373;
-    border-right: 15px solid #d4a373;
-    box-shadow: 0 0 80px rgba(0,0,0,0.9);
-    position: relative;
-    z-index: 50; /* Stays ON TOP of the falling leaves */
-}
-
-.letter-text { 
-    line-height: 2.2; 
-    font-size: 1.25rem; 
-    white-space: pre-wrap; 
-    color: #4a2113; 
-}
-
-/* --- UI ELEMENTS (INTRO) --- */
-.centered {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 100;
-}
-
-.intro-card {
-    background: rgba(253, 252, 240, 0.98);
-    padding: 50px;
-    text-align: center;
-    border: 1px solid #ba2d1e;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-    max-width: 400px;
-}
-
-.haiku { 
-    font-style: italic; 
-    margin: 25px 0; 
-    color: #ba2d1e; 
-    line-height: 1.8; 
-    font-size: 1.1rem;
-}
-
-.open-btn {
-    background: #ba2d1e;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    cursor: pointer;
-    font-family: 'Georgia', serif;
-    font-size: 1.1rem;
-    transition: 0.3s ease;
-}
-
-.open-btn:hover {
-    background: #8e1f14;
-    transform: scale(1.05);
-}
-
-/* --- ANIMATIONS & POLAROIDS --- */
+/* UI Elements */
+.centered { height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; z-index: 100; }
+.intro-card { background: rgba(253, 252, 240, 0.98); padding: 50px; text-align: center; border: 1px solid #ba2d1e; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-width: 400px; }
+.scroll-paper { background: #fdfcf0; max-width: 650px; margin: 80px auto; padding: 60px 45px; border-left: 15px solid #d4a373; border-right: 15px solid #d4a373; box-shadow: 0 0 60px rgba(0,0,0,0.9); position: relative; z-index: 50; }
+.open-btn { background: #ba2d1e; color: white; border: none; padding: 12px 25px; cursor: pointer; font-family: 'Georgia', serif; }
 .hidden { display: none; }
-.fade-in { animation: fadeIn 2.5s forwards; }
+.fade-in { animation: fadeIn 2s forwards; }
 .fade-out { animation: fadeOut 0.6s forwards; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-.polaroid-row { 
-    display: flex; 
-    justify-content: center; 
-    gap: 30px; 
-    margin-top: 50px; 
-    flex-wrap: wrap; 
-}
-
-.polaroid { 
-    background: white; 
-    padding: 10px 10px 30px 10px; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5); 
-    transform: rotate(-2deg); 
-    width: 200px; 
-}
-
+/* Letter visuals */
+.letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; color: #4a2113; }
+.polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); transform: rotate(-2deg); width: 200px; }
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
 .polaroid p { text-align: center; font-family: cursive; margin-top: 10px; color: #333; }
