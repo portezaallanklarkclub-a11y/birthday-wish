@@ -8,31 +8,33 @@
 </head>
 <body>
 
-    <!-- Background Scenery -->
     <div class="bg-overlay"></div>
 
-    <!-- Act 1: The Intro Button -->
+    <!-- Act 1: The Intro Card -->
     <div id="intro-screen" class="centered">
         <div class="intro-card">
             <h1>Happy Birthday!</h1>
-            <p class="haiku">"Leaves fall, wind whispers,<br>A path unfolds just for you,<br>Happy day of birth."</p>
-            <button onclick="openScroll()" class="open-btn">Open the Scroll 🍁</button>
+            <div class="haiku">
+                <p>Maple leaves in flight,</p>
+                <p>A new year dawns in the light,</p>
+                <p>Peace be yours tonight.</p>
+            </div>
+            <button onclick="openScroll()" class="open-btn">Follow the Wind 🍁</button>
         </div>
     </div>
 
-    <!-- Act 2: The Scroll (Hidden until clicked) -->
+    <!-- Act 2: The Unfolding Letter -->
     <div id="scroll-section" class="hidden">
         <div class="scroll-paper">
             <div class="scroll-content">
                 <h2>To my Dearest [Name],</h2>
-                <p>
-                    [Your heartfelt birthday letter goes here. You can make this 
-                    as long as you want; the paper will grow with your text.]
+                <p class="letter-text">
+                    [Insert your full birthday letter here!]
                 </p>
                 
                 <div class="polaroid-row">
-                    <div class="polaroid"><img src="kazuha1.jpg"><p>Wandering Heart</p></div>
-                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn Grace</p></div>
+                    <div class="polaroid"><img src="kazuha1.jpg"><p>A wandering heart</p></div>
+                    <div class="polaroid"><img src="kazuha2.jpg"><p>Autumn's grace</p></div>
                 </div>
             </div>
         </div>
@@ -47,17 +49,18 @@
                 document.getElementById('scroll-section').classList.remove('hidden');
                 document.getElementById('scroll-section').classList.add('fade-in');
                 generateLeaves();
-            }, 500);
+            }, 600);
         }
 
         function generateLeaves() {
             const container = document.getElementById('leaf-container');
-            for(let i=0; i<15; i++) {
+            // Using your leaf image for the falling effect
+            for(let i=0; i<18; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                leaf.innerHTML = '🍁'; // Simple emoji for now to ensure it works
+                leaf.innerHTML = `<img src="leaf1.png" style="width: 35px; height: auto;">`;
                 leaf.style.left = Math.random() * 100 + 'vw';
-                leaf.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                leaf.style.animationDuration = (Math.random() * 3 + 5) + 's';
                 leaf.style.animationDelay = Math.random() * 5 + 's';
                 container.appendChild(leaf);
             }
