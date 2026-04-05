@@ -4,54 +4,21 @@ body, html {
     min-height: 100vh;
     font-family: 'Georgia', serif;
     color: #5d2a18;
-    background-color: #1a0f0f; /* Fallback */
+    background-color: #1a0f0f;
 }
 
-/* --- BACKGROUND IS BACK --- */
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background-image: url('kazuha-bg.jpg');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.5); /* Dimmed so text is readable */
+    filter: brightness(0.4) contrast(1.1);
     z-index: -1;
 }
 
-.centered {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/* ... (Keep .centered, .intro-card, .haiku, .open-btn the same as previous) ... */
 
-.intro-card {
-    background: rgba(253, 252, 240, 0.95);
-    padding: 50px;
-    text-align: center;
-    border: 1px solid #ba2d1e;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    max-width: 400px;
-    z-index: 100;
-}
-
-.haiku {
-    font-style: italic;
-    margin: 25px 0;
-    line-height: 1.8;
-    color: #ba2d1e;
-}
-
-.open-btn {
-    background: #ba2d1e;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    cursor: pointer;
-    font-family: 'Georgia', serif;
-}
-
-/* Scroll Paper */
 .scroll-paper {
     background: #fdfcf0;
     max-width: 650px;
@@ -59,42 +26,52 @@ body, html {
     padding: 60px 45px;
     border-left: 15px solid #d4a373;
     border-right: 15px solid #d4a373;
-    box-shadow: 0 0 50px rgba(0,0,0,0.7);
+    box-shadow: 0 0 60px rgba(0,0,0,0.8);
     position: relative;
-    z-index: 50; /* Above the falling leaves */
+    z-index: 50; 
 }
 
-.letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; }
-
-/* Animations */
-.hidden { display: none; }
-.fade-in { animation: fadeIn 2s forwards; }
-.fade-out { animation: fadeOut 0.6s forwards; }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-/* --- THE FALLING LEAF SYSTEM --- */
+/* --- THE REALISTIC WIND SYSTEM --- */
 .leaf {
     position: fixed;
-    top: -15vh; /* Start well above the window */
-    z-index: 10; /* Behind the scroll, above the background */
+    top: -20vh; 
+    z-index: 10;
     pointer-events: none;
-    /* Combined falling and swaying animation */
-    animation: fall linear infinite, sway ease-in-out infinite;
+    /* We apply two animations: one for falling, one for swaying */
+    animation: fall linear infinite, cradle ease-in-out infinite;
 }
 
 @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(120vh) rotate(720deg); }
+    0% { 
+        transform: translateY(0) rotateX(0deg) rotateY(0deg); 
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { 
+        transform: translateY(125vh) rotateX(720deg) rotateY(360deg); 
+        opacity: 0;
+    }
 }
 
-@keyframes sway {
-    0%, 100% { margin-left: 0px; }
-    50% { margin-left: 80px; } /* Drifts to the side as it falls */
+@keyframes cradle {
+    0%, 100% { 
+        margin-left: -50px; 
+        transform: rotate(-15deg);
+    }
+    50% { 
+        margin-left: 50px; 
+        transform: rotate(15deg);
+    }
 }
 
-/* Polaroids */
+/* Animations and Polaroids same as before */
+.hidden { display: none; }
+.fade-in { animation: fadeIn 2s forwards; }
+.fade-out { animation: fadeOut 0.6s forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
 .polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
 .polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: rotate(-2deg); width: 200px; }
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
