@@ -1,0 +1,48 @@
+body {
+    background: #fff5e6; /* Soft cream background */
+    color: #5d2a18; /* Deep reddish-brown text */
+    font-family: 'Georgia', serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(255,255,255,0.2), rgba(186, 45, 30, 0.1));
+}
+
+.scroll-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #fdfcf0;
+    border: 2px solid #ba2d1e;
+    box-shadow: 10px 10px 0px #ba2d1e;
+    border-radius: 5px;
+}
+
+.haiku {
+    margin-top: 30px;
+    font-style: italic;
+    border-left: 3px solid #ba2d1e;
+    padding-left: 15px;
+}
+
+/* Simple falling leaf animation */
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.leaf {
+    position: absolute;
+    color: #ba2d1e;
+    font-size: 24px;
+    user-select: none;
+    animation: fall 5s linear infinite;
+}
