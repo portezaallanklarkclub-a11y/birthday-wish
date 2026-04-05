@@ -28,7 +28,7 @@ body, html {
 
 .leaf {
     position: absolute;
-    top: -100px; /* Start just off-screen */
+    top: 0px; /* Start just off-screen */
     opacity: 0;
 }
 
