@@ -8,6 +8,10 @@
 </head>
 <body>
 
+    <!-- 1. NEWLY ADDED SIDE LEAVES (Place them here) -->
+    <img src="leaf1.png" class="side-leaf leaf-left" alt="Maple Leaf">
+    <img src="leaf2.png" class="side-leaf leaf-right" alt="Maple Leaf">
+
     <!-- The Interactive Envelope -->
     <div class="envelope-wrapper" id="envelope-wrapper" onclick="openLetter()">
         <div class="envelope">
@@ -32,8 +36,7 @@
             <article class="message">
                 <h2>Happy Birthday, [Name]!</h2>
                 <p>
-                    [Your heartfelt message goes here. Talk about how much she means to you, 
-                    just like a calm breeze on a wandering journey.]
+                    [Your heartfelt message goes here.]
                 </p>
                 
                 <div class="polaroid-row">
@@ -46,10 +49,8 @@
 
     <script>
         function openLetter() {
-            // Hide the envelope
             document.getElementById('envelope-wrapper').classList.add('open-anim');
             
-            // Show the background and letter after a short delay
             setTimeout(() => {
                 document.getElementById('letter-overlay').classList.add('visible');
                 document.body.classList.add('bg-active');
@@ -62,7 +63,8 @@
             for(let i=0; i<15; i++) {
                 let leaf = document.createElement('div');
                 leaf.className = 'leaf';
-                leaf.innerHTML = '🍁';
+                // 2. UPDATED TO USE YOUR IMAGE FOR FALLING LEAVES
+                leaf.innerHTML = `<img src="leaf1.png" style="width: 30px; height: auto;">`;
                 leaf.style.left = Math.random() * 100 + 'vw';
                 leaf.style.animationDelay = Math.random() * 5 + 's';
                 container.appendChild(leaf);
