@@ -7,6 +7,7 @@ body, html {
     overflow-x: hidden;
 }
 
+/* Background */
 .bg-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -17,44 +18,53 @@ body, html {
     z-index: -1;
 }
 
-.centered {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 100;
-}
-
-.intro-card {
-    background: rgba(253, 252, 240, 0.95);
-    padding: 50px;
-    text-align: center;
-    border: 1px solid #ba2d1e;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-    max-width: 400px;
-}
-
-.haiku { font-style: italic; margin: 25px 0; color: #ba2d1e; line-height: 1.8; }
-
-.open-btn {
-    background: #ba2d1e;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    cursor: pointer;
-    font-family: 'Georgia', serif;
-    font-size: 1.1rem;
-}
-
-/* Layering: Leaf Container behind Scroll Paper */
+/* The Stage for the Leaves */
 #leaf-container {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
     pointer-events: none;
-    z-index: 10; 
+    z-index: 10; /* Set between background and scroll */
+    overflow: hidden;
 }
 
+.leaf {
+    position: absolute;
+    top: 0; /* STARTING AT THE TOP */
+    opacity: 0;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+    will-change: transform;
+}
+
+/* THE WIND SWAY (Cradling effect) */
+@keyframes sway {
+    0%, 100% { 
+        margin-left: -100px; 
+        transform: rotate(-25deg); 
+    }
+    50% { 
+        margin-left: 100px; 
+        transform: rotate(25deg); 
+    }
+}
+
+/* THE FALLING (Gravity effect) */
+@keyframes fall {
+    0% { 
+        transform: translateY(-150px) rotateX(0deg); 
+        opacity: 0; 
+    }
+    10% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { 
+        transform: translateY(110vh) rotateX(720deg); 
+        opacity: 0; 
+    }
+}
+
+/* Letter Elements */
 .scroll-paper {
     background: #fdfcf0;
     max-width: 650px;
@@ -64,37 +74,26 @@ body, html {
     border-right: 15px solid #d4a373;
     box-shadow: 0 0 60px rgba(0,0,0,0.9);
     position: relative;
-    z-index: 50; /* Higher than leaves */
+    z-index: 50; /* Stays above the leaves */
 }
 
-/* Realistic Wind Movement */
-.leaf {
-    position: absolute;
-    top: -20vh;
-    animation: fall linear infinite, cradle ease-in-out infinite;
-}
+.letter-text { line-height: 2.2; font-size: 1.25rem; white-space: pre-wrap; color: #4a2113; }
 
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(125vh) rotate(720deg); opacity: 0; }
-}
+/* Intro Card */
+.centered { height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; z-index: 100; }
+.intro-card { background: rgba(253, 252, 240, 0.95); padding: 50px; text-align: center; border: 1px solid #ba2d1e; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-width: 400px; }
+.haiku { font-style: italic; margin: 25px 0; color: #ba2d1e; line-height: 1.8; }
+.open-btn { background: #ba2d1e; color: white; border: none; padding: 12px 25px; cursor: pointer; font-family: 'Georgia', serif; font-size: 1.1rem; }
 
-@keyframes cradle {
-    0%, 100% { margin-left: -80px; transform: rotate(-20deg); }
-    50% { margin-left: 80px; transform: rotate(20deg); }
-}
+/* Transitions */
+.hidden { display: none; }
+.fade-in { animation: fadeIn 2.5s forwards; }
+.fade-out { animation: fadeOut 0.6s forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-/* Text and Images */
-.letter-text { line-height: 2.2; font-size: 1.2rem; white-space: pre-wrap; color: #4a2113; }
+/* Images */
 .polaroid-row { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
 .polaroid { background: white; padding: 10px 10px 30px 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); transform: rotate(-2deg); width: 200px; }
 .polaroid img { width: 100%; height: 180px; object-fit: cover; }
 .polaroid p { text-align: center; font-family: cursive; margin-top: 10px; color: #333; }
-
-.hidden { display: none; }
-.fade-in { animation: fadeIn 2s forwards; }
-.fade-out { animation: fadeOut 0.6s forwards; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
