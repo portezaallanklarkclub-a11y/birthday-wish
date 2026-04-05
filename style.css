@@ -1,43 +1,57 @@
 body {
-    background-color: #2c1a1a; /* Dark autumn night */
-    color: #f4e4bc; /* Aged parchment color */
+    background-color: #1a0f0f; /* Deep dark wood/night */
+    color: #f4e4bc; /* Warm parchment */
+    font-family: 'Georgia', serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
+    margin: 0;
 }
 
 .letter-container {
+    background: #2d1b1b;
+    padding: 40px;
+    border: 1px solid #a63d40; /* Maple Red */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-width: 400px;
     text-align: center;
-    padding: 20px;
-    border: 2px solid #a63d40;
-    background: rgba(44, 26, 26, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(166, 61, 64, 0.5);
 }
 
 .maple-seal {
-    font-size: 50px;
+    font-size: 60px;
     cursor: pointer;
+    filter: drop-shadow(0 0 10px #ff4d4d);
     animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
 }
 
 .hidden {
     display: none;
-    opacity: 0;
 }
 
 .fade-in {
     display: block;
-    animation: fadeIn 2s forwards;
+    animation: fadeIn 1.5s forwards;
 }
 
 @keyframes fadeIn {
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.haiku {
+    color: #d16666; /* Soft red for the poem */
+    line-height: 1.6;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #a63d40;
+    margin: 20px 0;
 }
