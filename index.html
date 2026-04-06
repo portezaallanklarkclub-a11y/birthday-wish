@@ -32,20 +32,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('kazuha-bg.jpg'); /* Updated filename */
+            background-image: url('kazuha-bg.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(6px) brightness(0.6);
             z-index: -1;
-            transform: scale(1.1); /* Prevents white edges from blur */
+            transform: scale(1.1);
         }
 
         .serif {
             font-family: 'Noto+Serif+JP', serif;
         }
 
-        /* Animated Background Leaves */
-        .leaf-container {
+        /* Interactive Leaf Container */
+        #leaf-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -62,21 +62,7 @@
             background-repeat: no-repeat;
             opacity: 0.8;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));
-            animation: fall linear infinite;
             will-change: transform;
-        }
-
-        @keyframes fall {
-            0% { 
-                transform: translateY(-20vh) translateX(0) rotate(0deg) rotateY(0deg); 
-                opacity: 0; 
-            }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { 
-                transform: translateY(120vh) translateX(150px) rotate(720deg) rotateY(360deg); 
-                opacity: 0; 
-            }
         }
 
         /* Scroll Structure */
@@ -231,7 +217,7 @@
     <!-- Scenery Background Layer -->
     <div class="bg-scenery"></div>
     
-    <div class="leaf-container" id="leaf-container"></div>
+    <div id="leaf-container"></div>
 
     <!-- Introduction -->
     <div id="intro-screen" class="text-center text-white mb-12 drop-shadow-lg">
@@ -322,41 +308,102 @@
         const innerContent = document.getElementById('inner-content');
         const windBtn = document.getElementById('wind-button');
 
+        let leaves = [];
+        let mouseX = -1000;
+        let mouseY = -1000;
+
+        class Leaf {
+            constructor() {
+                this.el = document.createElement('div');
+                this.el.className = 'leaf';
+                leafContainer.appendChild(this.el);
+                this.reset();
+            }
+
+            reset() {
+                this.size = 50 + Math.random() * 60;
+                this.x = Math.random() * window.innerWidth;
+                this.y = -this.size - (Math.random() * 500);
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = 1 + Math.random() * 2;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 2;
+                this.swing = Math.random() * 100;
+                this.swingSpeed = 0.02 + Math.random() * 0.03;
+                
+                this.el.style.width = `${this.size}px`;
+                this.el.style.height = `${this.size}px`;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.x += this.vx + Math.sin(this.swing) * 0.5;
+                this.swing += this.swingSpeed;
+                this.rotation += this.rotationSpeed;
+
+                // Physics: Mouse interaction
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const forceRadius = 150;
+
+                if (distance < forceRadius) {
+                    const force = (forceRadius - distance) / forceRadius;
+                    const angle = Math.atan2(dy, dx);
+                    this.vx += Math.cos(angle) * force * 5;
+                    this.vy += Math.sin(angle) * force * 5;
+                }
+
+                // Apply some air resistance to stabilize
+                this.vx *= 0.95;
+                this.vy = (this.vy - 1.5) * 0.95 + 1.5;
+
+                if (this.y > window.innerHeight + this.size) {
+                    this.reset();
+                }
+
+                this.el.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rotation}px) rotateY(${this.rotation * 0.5}deg)`;
+            }
+        }
+
+        function initLeaves() {
+            // Increased leaf count to 25 for a denser effect
+            for (let i = 0; i < 25; i++) {
+                leaves.push(new Leaf());
+            }
+        }
+
+        function animate() {
+            leaves.forEach(leaf => leaf.update());
+            requestAnimationFrame(animate);
+        }
+
         window.onload = () => {
             setTimeout(() => {
                 document.getElementById('title-text').style.opacity = '1';
             }, 500);
-            createLeaves(8); 
+            initLeaves();
+            animate();
         };
 
-        function createLeaves(count) {
-            for (let i = 0; i < count; i++) {
-                const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                resetLeaf(leaf);
-                leafContainer.appendChild(leaf);
-            }
-        }
+        // Capture Mouse/Touch for physics
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
 
-        function resetLeaf(leaf) {
-            const startX = Math.random() * window.innerWidth;
-            const duration = 12 + Math.random() * 18; 
-            const size = 70 + Math.random() * 90;    
-            
-            leaf.style.left = `${startX}px`;
-            leaf.style.width = `${size}px`;
-            leaf.style.height = `${size}px`;
-            leaf.style.animationDuration = `${duration}s`;
-            leaf.style.animationDelay = `-${Math.random() * 30}s`; 
-        }
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            }
+        });
 
         scrollSeal.addEventListener('click', () => {
             sealContainer.style.opacity = '0';
             setTimeout(() => sealContainer.style.display = 'none', 500);
-            
             scrollBody.classList.add('open');
             innerContent.classList.add('revealed');
-            
             revealStory();
         });
 
@@ -398,18 +445,8 @@
                     easing: 'cubic-bezier(0, .5, .5, 1)'
                 }).onfinish = () => p.remove();
             }
-            createLeaves(3);
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            const leaves = document.querySelectorAll('.leaf');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            leaves.forEach(leaf => {
-                const speed = parseFloat(leaf.style.width) / 20;
-                leaf.style.marginLeft = `${(x - 0.5) * 60 * speed}px`;
-                leaf.style.marginTop = `${(y - 0.5) * 60 * speed}px`;
-            });
+            // Add extra leaves on click
+            for(let i=0; i<5; i++) leaves.push(new Leaf());
         });
     </script>
 </body>
