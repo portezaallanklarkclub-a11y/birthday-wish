@@ -14,6 +14,7 @@
             --paper-white: #fdfaf6;
             --scroll-silk: #d4c4a8;
             --wood-dark: #3e2723;
+            --inazuma-purple: #4b2c5e;
         }
 
         body {
@@ -217,6 +218,127 @@
             margin-bottom: 1.5rem;
             text-indent: 1.5rem;
         }
+
+        /* --- INAZUMA STYLE MUSIC PLAYER --- */
+        .music-player-inazuma {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .inazuma-container {
+            display: flex;
+            align-items: center;
+            background: rgba(46, 26, 26, 0.85);
+            border: 2px solid var(--autumn-gold);
+            padding: 8px 20px 8px 12px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            position: relative;
+            min-width: 200px;
+        }
+
+        /* Decorative Corner Accents */
+        .inazuma-container::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 15px;
+            height: 15px;
+            border-top: 2px solid var(--autumn-gold);
+            border-left: 2px solid var(--autumn-gold);
+        }
+
+        .player-disc-wrapper {
+            position: relative;
+            margin-right: 15px;
+        }
+
+        .player-disc {
+            width: 50px;
+            height: 50px;
+            background: var(--maple-red);
+            border: 3px solid var(--autumn-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 15px rgba(179, 57, 57, 0.5);
+        }
+
+        .player-disc:hover {
+            transform: rotate(15deg) scale(1.05);
+            box-shadow: 0 0 20px rgba(225, 173, 1, 0.6);
+        }
+
+        .player-disc svg {
+            fill: white;
+            transition: transform 0.2s;
+        }
+
+        .spinning {
+            animation: spin 6s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .music-text-area {
+            display: flex;
+            flex-direction: column;
+            color: #fdfaf6;
+        }
+
+        .song-name {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--autumn-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .artist-name {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        /* Pulsing Maple Leaf Visualizer */
+        .maple-pulse {
+            position: absolute;
+            top: -12px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background-image: url('https://portezaallanklarkclub-a11y.github.io/birthday-wish/leaf2.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .playing .maple-pulse {
+            opacity: 1;
+            animation: heart-beat 1.2s ease-in-out infinite;
+        }
+
+        @keyframes heart-beat {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.3) rotate(15deg); filter: brightness(1.3); }
+        }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
@@ -225,6 +347,31 @@
     <div class="bg-scenery"></div>
     
     <div id="leaf-container"></div>
+
+    <!-- INAZUMA MUSIC PLAYER -->
+    <div class="music-player-inazuma" id="player-root">
+        <div class="inazuma-container" id="inazuma-container">
+            <div class="player-disc-wrapper">
+                <div class="player-disc" id="play-pause-btn">
+                    <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                    </svg>
+                    <svg id="pause-icon" class="hidden" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                    </svg>
+                </div>
+                <div class="maple-pulse"></div>
+            </div>
+            <div class="music-text-area">
+                <span class="song-name">Eternal Melody</span>
+                <span class="artist-name">Wandering Wind</span>
+            </div>
+        </div>
+        <!-- Audio Element -->
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
     <!-- Introduction -->
     <div id="intro-screen" class="text-center text-white mb-12 drop-shadow-lg z-20">
@@ -263,7 +410,7 @@
                         <div class="placeholder-text px-4">Memories of the Journey<br><span class="text-[10px] mt-2 block">(Replace with image URL)</span></div>
                     </div>
 
-                    <!-- HAIKU (Preserved) -->
+                    <!-- HAIKU -->
                     <div class="space-y-4 text-xl leading-relaxed text-gray-800 italic serif text-center my-10 border-y border-red-50 py-4">
                         <p id="poem-1" class="opacity-0 transition-opacity duration-1000">"Maple leaves turn red,"</p>
                         <p id="poem-2" class="opacity-0 transition-opacity duration-1000">"Wild winds whisper through the trees,"</p>
@@ -273,7 +420,7 @@
                     <!-- MAIN LETTER MESSAGE -->
                     <div class="letter-content text-gray-800 text-lg leading-relaxed serif text-justify mt-8">
                         <p class="opacity-0 transition-opacity duration-1000" id="salutation">
-                            <strong class="text-2xl block text-red-900 mb-4">To my Dearest Charise,</strong>
+                            <strong class="text-4xl block text-red-900 mb-6">To my Dearest Charise,</strong>
                         </p>
                         <p class="opacity-0 transition-opacity duration-1000" id="para-1">
                             Happy Birthday!! 15 years old ka naa, dalagang dalaga na siya. Naalala ko pa noong gumagawa pa ako ng birthday message sa'yo last year, parang kailan lang. Di ako marunong magpatugtog ng gitara, gumuhit ng mga magandang larawan, pero magaling ako mag-sulat at gumawa ng mga ganito. Baka hindi ko kayang awitin ang nararamdaman ko, pero kaya kong isulat ang lahat ng pangarap ko para sa’yo. Sa pagpasok mo sa bagong yugto na ito ng buhay mo, nawa’y maging matapang ka sa bawat pagsubok at laging puno ng ngiti ang iyong mga labi. Mananatili akong tagahanga ng bawat kwentong isusulat mo sa buhay mo.
@@ -330,6 +477,29 @@
         const scrollBody = document.getElementById('scroll-body');
         const innerContent = document.getElementById('inner-content');
         const windBtn = document.getElementById('wind-button');
+
+        // Music Logic
+        const music = document.getElementById('bg-music');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const playerRoot = document.getElementById('player-root');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                playerRoot.classList.add('playing');
+                playPauseBtn.classList.add('spinning');
+            } else {
+                music.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                playerRoot.classList.remove('playing');
+                playPauseBtn.classList.remove('spinning');
+            }
+        });
 
         let leaves = [];
 
