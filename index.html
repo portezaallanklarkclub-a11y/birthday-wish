@@ -45,15 +45,15 @@
             font-family: 'Noto Serif JP', serif;
         }
 
-        /* Leaf Container - CRITICAL FIX: Z-INDEX INCREASED */
+        /* Leaf Container - Overlays everything */
         #leaf-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Allows clicks to pass through to the scroll underneath */
-            z-index: 100; /* Higher than the scroll-wrapper (10) and music player */
+            pointer-events: none; 
+            z-index: 100; 
         }
 
         .leaf {
@@ -289,7 +289,7 @@
     <!-- Scenery Background Layer -->
     <div class="bg-scenery"></div>
     
-    <!-- Leaf Overlay Layer (Now with High Z-Index) -->
+    <!-- Leaf Overlay Layer -->
     <div id="leaf-container"></div>
 
     <!-- INAZUMA MUSIC PLAYER -->
@@ -349,7 +349,7 @@
                     </div>
 
                     <div class="image-frame">
-                        <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img.jpg" alt="Memory 1">
+                        <img src="kazuu.jpg" alt="Memory 1">
                     </div>
 
                     <!-- HAIKU -->
@@ -380,6 +380,9 @@
                         </p>
                         <p class="opacity-0 transition-opacity duration-1000" id="para-4">
                             Proud ako sa lahat ng narating mo, I get happy whenever you succeed at something and when you work hard to improve your skills. Gusto kitang makitang magsuccceed sa buhay mo and get a peaceful and stable life that you need and wanted. If you ever need someone to talk to, remember, I'm always here for you.
+                        </p>
+                        <p class="opacity-0 transition-opacity duration-1000 font-bold text-red-900 mt-6" id="final-message">
+                            I'm excited to see what your 15 year old self will do. Always remember na support lang ako sa'yo palagi. Enjoy your day, Charise!!
                         </p>
                     </div>
 
@@ -513,7 +516,7 @@
             const elements = [
                 'poem-1', 'poem-2', 'poem-3', 
                 'salutation', 'para-1', 'img-placeholder-2', 
-                'para-2', 'para-3', 'para-4',
+                'para-2', 'para-3', 'para-4', 'final-message',
                 'signature', 'footer-note'
             ];
             for (const id of elements) {
@@ -526,11 +529,9 @@
         }
 
         windBtn.addEventListener('click', () => {
-            // Screen Shake Effect
             scrollBody.style.transform = 'scale(1.01) translateY(-5px)';
             setTimeout(() => scrollBody.style.transform = '', 300);
 
-            // Particles
             for(let i = 0; i < 30; i++) {
                 const p = document.createElement('div');
                 p.className = 'wind-particle';
@@ -555,7 +556,6 @@
                 }).onfinish = () => p.remove();
             }
             
-            // Speed up leaves temporarily
             leaves.forEach(leaf => {
                 const originalVy = leaf.vy;
                 leaf.vy += 5;
