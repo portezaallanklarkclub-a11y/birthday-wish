@@ -14,7 +14,6 @@
             --paper-white: #fdfaf6;
             --scroll-silk: #d4c4a8;
             --wood-dark: #3e2723;
-            --vinyl-black: #181818;
         }
 
         body {
@@ -26,109 +25,23 @@
             min-height: 100vh;
         }
 
-        /* Background Scenery */
+        /* Blurred Background Scenery */
         .bg-scenery {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('inazuma scenery.jpg');
+            background-image: url('kazuha-bg.jpg');
             background-size: cover;
             background-position: center;
-            filter: blur(6px) brightness(0.5);
+            filter: blur(6px) brightness(0.6);
             z-index: -1;
             transform: scale(1.1);
         }
 
         .serif {
-            font-family: 'Noto Serif JP', serif;
-        }
-
-        /* Record Player System */
-        .music-side-container {
-            position: fixed;
-            left: 5vw;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .record-wrapper {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            cursor: pointer;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-        }
-
-        .record-vinyl {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #333 2%, var(--vinyl-black) 4%, #333 5%, var(--vinyl-black) 7%, #333 8%, var(--vinyl-black) 10%, #222 50%, #000 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #222;
-            transition: transform 0.5s ease;
-        }
-
-        .record-label {
-            width: 35%;
-            height: 35%;
-            background: var(--maple-red);
-            border-radius: 50%;
-            border: 3px solid var(--autumn-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        .record-arm {
-            position: absolute;
-            top: -20px;
-            right: -10px;
-            width: 80px;
-            height: 10px;
-            background: #888;
-            border-radius: 5px;
-            transform-origin: right center;
-            transform: rotate(-30deg);
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 101;
-            pointer-events: none;
-        }
-
-        .playing .record-vinyl {
-            animation: spin 4s linear infinite;
-        }
-
-        .playing .record-arm {
-            transform: rotate(5deg);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .song-info {
-            text-align: center;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            background: rgba(0,0,0,0.3);
-            padding: 8px 15px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Noto+Serif+JP', serif;
         }
 
         /* Leaf Container */
@@ -195,7 +108,7 @@
         }
 
         .scroll-body.open {
-            max-height: 5000px;
+            max-height: 2500px;
             padding-bottom: 40px;
         }
 
@@ -306,22 +219,6 @@
     
     <div id="leaf-container"></div>
 
-    <!-- Music Player Side System -->
-    <div class="music-side-container">
-        <div class="record-wrapper" id="music-trigger">
-            <div class="record-arm" id="record-arm"></div>
-            <div class="record-vinyl" id="vinyl-disc">
-                <div class="record-label">🍁</div>
-            </div>
-        </div>
-        <div class="song-info">
-            <p class="text-[10px] uppercase tracking-tighter opacity-70">Now Playing</p>
-            <p class="serif text-sm font-bold text-yellow-500">Kazuha's Theme</p>
-        </div>
-        <!-- REPLACE THE SRC BELOW WITH YOUR DESIRED SONG URL -->
-        <audio id="bg-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-    </div>
-
     <!-- Introduction -->
     <div id="intro-screen" class="text-center text-white mb-12 drop-shadow-lg">
         <h1 class="text-3xl md:text-4xl serif mb-4 opacity-0 transition-opacity duration-1000" id="title-text">
@@ -411,21 +308,6 @@
         const innerContent = document.getElementById('inner-content');
         const windBtn = document.getElementById('wind-button');
 
-        // Music Logic
-        const musicTrigger = document.getElementById('music-trigger');
-        const audio = document.getElementById('bg-audio');
-        const vinyl = document.getElementById('music-trigger');
-        
-        musicTrigger.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
-                vinyl.classList.add('playing');
-            } else {
-                audio.pause();
-                vinyl.classList.remove('playing');
-            }
-        });
-
         let leaves = [];
 
         class Leaf {
@@ -440,12 +322,19 @@
                 this.size = 40 + Math.random() * 50;
                 this.x = Math.random() * window.innerWidth;
                 this.y = -this.size - (Math.random() * 800);
+                
+                // Falling speed
                 this.vy = 1 + Math.random() * 1.5;
+                
+                // Swaying logic
                 this.horizontalRange = 20 + Math.random() * 40;
                 this.swaySpeed = 0.01 + Math.random() * 0.02;
                 this.swayOffset = Math.random() * Math.PI * 2;
+                
+                // Rotation
                 this.rotation = Math.random() * 360;
                 this.rotationSpeed = (Math.random() - 0.5) * 1.5;
+                
                 this.el.style.width = `${this.size}px`;
                 this.el.style.height = `${this.size}px`;
             }
@@ -453,18 +342,23 @@
             update() {
                 this.y += this.vy;
                 this.swayOffset += this.swaySpeed;
+                
+                // Calculate horizontal position based on sway
                 const currentX = this.x + Math.sin(this.swayOffset) * this.horizontalRange;
                 this.rotation += this.rotationSpeed;
 
+                // Reset if off bottom
                 if (this.y > window.innerHeight + this.size) {
                     this.reset();
                 }
 
+                // Apply transforms
                 this.el.style.transform = `translate(${currentX}px, ${this.y}px) rotate(${this.rotation}deg) rotateX(${Math.sin(this.swayOffset) * 45}deg)`;
             }
         }
 
         function initLeaves() {
+            // High leaf count for a beautiful autumn atmosphere
             for (let i = 0; i < 45; i++) {
                 leaves.push(new Leaf());
             }
@@ -531,6 +425,7 @@
                 }).onfinish = () => p.remove();
             }
             
+            // Temporary speed boost to existing leaves to simulate a gust
             leaves.forEach(leaf => {
                 leaf.vy += 2;
                 setTimeout(() => leaf.vy -= 2, 2000);
