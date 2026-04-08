@@ -232,7 +232,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             backdrop-filter: blur(12px);
             position: relative;
-            min-width: 200px;
+            min-width: 220px;
         }
 
         .player-disc {
@@ -307,11 +307,13 @@
                 <div class="maple-pulse"></div>
             </div>
             <div class="flex flex-col text-white">
-                <span class="serif text-sm font-bold text-[#e1ad01]">Eternal Melody</span>
-                <span class="text-[10px] uppercase tracking-widest opacity-70">Wandering Wind</span>
+                <span class="serif text-sm font-bold text-[#e1ad01]">Glue Song</span>
+                <span class="text-[10px] uppercase tracking-widest opacity-70">Beabadoobee</span>
             </div>
         </div>
         <audio id="bg-music" loop>
+            <!-- Change 'glue-song.mp3' to your file name on GitHub -->
+            <source src="glue-song.mp3" type="audio/mpeg">
             <source src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/music.mp3" type="audio/mpeg">
         </audio>
     </div>
@@ -428,7 +430,7 @@
 
         playPauseBtn.addEventListener('click', () => {
             if (music.paused) {
-                music.play();
+                music.play().catch(e => console.log("Audio play blocked by browser or file missing."));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
                 playerRoot.classList.add('playing');
