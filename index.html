@@ -66,6 +66,51 @@
             will-change: transform;
         }
 
+        /* Polaroid Styles from previous version */
+        .polaroid-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+            opacity: 0; 
+            transition: opacity 2s ease;
+        }
+
+        .polaroid-container.visible {
+            opacity: 1;
+        }
+
+        .polaroid {
+            position: absolute;
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 150px;
+            transition: transform 0.3s ease;
+            pointer-events: auto;
+            animation: polaroidFloat 6s ease-in-out infinite;
+        }
+
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            filter: sepia(0.2) contrast(1.1);
+        }
+
+        @keyframes polaroidFloat {
+            0%, 100% { transform: translateY(0) rotate(var(--rot)); }
+            50% { transform: translateY(-15px) rotate(var(--rot)); }
+        }
+
+        @media (max-width: 768px) {
+            .polaroid { display: none; }
+        }
+
         /* Scroll Structure */
         .scroll-wrapper {
             position: relative;
@@ -110,7 +155,7 @@
         }
 
         .scroll-body.open {
-            max-height: 5000px;
+            max-height: 6000px;
             padding-bottom: 40px;
         }
 
@@ -289,6 +334,30 @@
     <!-- Scenery Background Layer -->
     <div class="bg-scenery"></div>
     
+    <!-- Polaroid Photos Layer -->
+    <div class="polaroid-container" id="polaroid-container">
+        <!-- Left Side -->
+        <div class="polaroid" style="top: 10%; left: 5%; --rot: -8deg; animation-delay: 0s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-bg.jpg" alt="Memory 1">
+        </div>
+        <div class="polaroid" style="top: 45%; left: 3%; --rot: 5deg; animation-delay: -2s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img2.jpg" alt="Memory 2">
+        </div>
+        <div class="polaroid" style="top: 75%; left: 8%; --rot: -12deg; animation-delay: -4s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Memory 3">
+        </div>
+        <!-- Right Side -->
+        <div class="polaroid" style="top: 15%; right: 5%; --rot: 10deg; animation-delay: -1s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Memory 4">
+        </div>
+        <div class="polaroid" style="top: 50%; right: 3%; --rot: -6deg; animation-delay: -3s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-bg.jpg" alt="Memory 5">
+        </div>
+        <div class="polaroid" style="top: 80%; right: 7%; --rot: 15deg; animation-delay: -5s;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img2.jpg" alt="Memory 6">
+        </div>
+    </div>
+
     <!-- Leaf Overlay Layer -->
     <div id="leaf-container"></div>
 
@@ -312,8 +381,6 @@
             </div>
         </div>
         <audio id="bg-music" loop>
-            <!-- Change 'glue-song.mp3' to your file name on GitHub -->
-            <source src="glue-song.mp3" type="audio/mpeg">
             <source src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/glue-song.mp3" type="audio/mpeg">
         </audio>
     </div>
@@ -351,7 +418,7 @@
                     </div>
 
                     <div class="image-frame">
-                        <img src="kazuu.jpg" alt="Memory 1">
+                        <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Memory 1">
                     </div>
 
                     <!-- HAIKU -->
@@ -420,6 +487,7 @@
         const scrollBody = document.getElementById('scroll-body');
         const innerContent = document.getElementById('inner-content');
         const windBtn = document.getElementById('wind-button');
+        const polaroidContainer = document.getElementById('polaroid-container');
 
         // Music Logic
         const music = document.getElementById('bg-music');
@@ -430,7 +498,7 @@
 
         playPauseBtn.addEventListener('click', () => {
             if (music.paused) {
-                music.play().catch(e => console.log("Audio play blocked by browser or file missing."));
+                music.play().catch(e => console.log("Audio play blocked."));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
                 playerRoot.classList.add('playing');
@@ -444,6 +512,7 @@
             }
         });
 
+        // LEAF LOGIC (USING THE PHYSICS FROM YOUR REQUEST)
         let leaves = [];
 
         class Leaf {
@@ -511,6 +580,7 @@
             setTimeout(() => sealContainer.style.display = 'none', 500);
             scrollBody.classList.add('open');
             innerContent.classList.add('revealed');
+            polaroidContainer.classList.add('visible'); // Show polaroids when opened
             revealStory();
         });
 
