@@ -26,7 +26,6 @@
             min-height: 100vh;
         }
 
-        /* Blurred Background Scenery */
         .bg-scenery {
             position: fixed;
             top: 0;
@@ -45,7 +44,6 @@
             font-family: 'Noto Serif JP', serif;
         }
 
-        /* Leaf Container - Overlays everything */
         #leaf-container {
             position: fixed;
             top: 0;
@@ -66,7 +64,6 @@
             will-change: transform;
         }
 
-        /* Polaroid Styles */
         .polaroid-container {
             position: fixed;
             top: 0;
@@ -107,11 +104,6 @@
             50% { transform: translateY(-15px) rotate(var(--rot)); }
         }
 
-        @media (max-width: 768px) {
-            .polaroid { display: none; }
-        }
-
-        /* Scroll Structure */
         .scroll-wrapper {
             position: relative;
             z-index: 10;
@@ -165,8 +157,6 @@
             padding: 40px 25px;
             min-height: 300px;
             position: relative;
-            background-image: 
-                radial-gradient(circle at 100% 0%, rgba(179, 57, 57, 0.08) 0, transparent 200px);
         }
 
         .image-frame {
@@ -239,25 +229,6 @@
             transition: transform 0.3s ease;
         }
 
-        .seal:hover {
-            transform: scale(1.1);
-        }
-
-        .wind-particle {
-            position: fixed;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(1px);
-            z-index: 150;
-        }
-
-        .letter-content p {
-            margin-bottom: 1.5rem;
-            text-indent: 1.5rem;
-        }
-
-        /* --- MUSIC PLAYER --- */
         .music-player-inazuma {
             position: fixed;
             bottom: 25px;
@@ -277,7 +248,6 @@
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             backdrop-filter: blur(12px);
-            position: relative;
             min-width: 220px;
         }
 
@@ -291,8 +261,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 15px rgba(179, 57, 57, 0.5);
+            transition: all 0.4s;
         }
 
         .spinning {
@@ -304,32 +273,8 @@
             to { transform: rotate(360deg); }
         }
 
-        .maple-pulse {
-            position: absolute;
-            top: -12px;
-            right: -8px;
-            width: 24px;
-            height: 24px;
-            background-image: url('https://portezaallanklarkclub-a11y.github.io/birthday-wish/leaf2.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .playing .maple-pulse {
-            opacity: 1;
-            animation: heart-beat 1.2s ease-in-out infinite;
-        }
-
-        @keyframes heart-beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3) rotate(15deg); }
-        }
-
         .hidden { display: none; }
 
-        /* Secondary Voice Player Style */
         .voice-player-btn {
             display: flex;
             align-items: center;
@@ -341,71 +286,51 @@
             border-radius: 20px;
             width: fit-content;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: all 0.2s;
             color: var(--maple-red);
             font-weight: 600;
         }
-        .voice-player-btn:hover {
-            background: #fdfaf6;
-            border-color: var(--maple-red);
-            transform: translateY(-2px);
-        }
-        .voice-player-btn .icon-circle {
-            width: 28px;
-            height: 28px;
-            background: var(--maple-red);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        @media (max-width: 768px) {
+            .polaroid { display: none; }
         }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <!-- Scenery Background Layer -->
     <div class="bg-scenery"></div>
     
-    <!-- Polaroid Photos Layer -->
     <div class="polaroid-container" id="polaroid-container">
-        <div class="polaroid" style="top: 10%; left: 5%; --rot: -8deg; animation-delay: 0s;">
+        <div class="polaroid" style="top: 10%; left: 5%; --rot: -8deg;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/%E2%8B%86.jpg" alt="Memory 1">
         </div>
-        <div class="polaroid" style="top: 45%; left: 3%; --rot: 5deg; animation-delay: -2s;">
+        <div class="polaroid" style="top: 45%; left: 3%; --rot: 5deg;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/40154723-1b81-4532-8add-1da6ea322c3a.jpg" alt="Memory 2">
         </div>
-        <div class="polaroid" style="top: 75%; left: 8%; --rot: -12deg; animation-delay: -4s;">
+        <div class="polaroid" style="top: 75%; left: 8%; --rot: -12deg;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/2cf1c9c2-1715-43a1-8c6a-b5228eab6aaa.jpg" alt="Memory 3">
         </div>
-        <div class="polaroid" style="top: 15%; right: 5%; --rot: 10deg; animation-delay: -1s;">
-            <!-- Memory 4 FIXED with correct encoding -->
-            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/%E0%B9%91%20%F0%9F%8D%82%E2%83%91%E2%96%92%20%F0%9D%90%BA%E1%B8%A3%F0%9D%90%9A%F0%9D%90%B3%F0%9D%90%AE%F0%9D%90%A1%F0%9D%90%9A%20%F0%93%B0%AC%20%D6%B4%20%E1%B8%B4.jpg" alt="Memory 4">
+        <!-- MEMORY 4: Using encoded URL to match GitHub directory name -->
+        <div class="polaroid" style="top: 15%; right: 5%; --rot: 10deg;">
+            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/%E0%B9%91%20%F0%9F%8D%82%E2%83%91%E2%96%92%20%F0%9D%90%BA%E1%B8%A3%F0%9D%90%9A%F0%9D%90%B3%F0%9D%90%AE%F0%9D%90%A1%F0%9D%90%9A%20%F0%93%B0%AC%20%D6%B4%20%E1%B8%B4.jpg" alt="kazuha">
         </div>
-        <div class="polaroid" style="top: 50%; right: 3%; --rot: -6deg; animation-delay: -3s;">
+        <div class="polaroid" style="top: 50%; right: 3%; --rot: -6deg;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/52aaf494-25ae-4abf-b535-f9a29c712e7e.jpg" alt="Memory 5">
         </div>
-        <div class="polaroid" style="top: 80%; right: 7%; --rot: 15deg; animation-delay: -5s;">
+        <div class="polaroid" style="top: 80%; right: 7%; --rot: 15deg;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/%E4%B8%87%E5%8F%B6.jpg" alt="Memory 6">
         </div>
     </div>
 
-    <!-- Leaf Overlay Layer -->
     <div id="leaf-container"></div>
 
-    <!-- INAZUMA MUSIC PLAYER -->
     <div class="music-player-inazuma" id="player-root">
         <div class="inazuma-container">
             <div class="relative mr-4">
                 <div class="player-disc" id="play-pause-btn">
-                    <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-                    </svg>
-                    <svg id="pause-icon" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
-                    </svg>
+                    <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>
+                    <svg id="pause-icon" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M14,19H18V5H14M6,19H10V5H6V19Z" /></svg>
                 </div>
-                <div class="maple-pulse"></div>
             </div>
             <div class="flex flex-col text-white">
                 <span class="serif text-sm font-bold text-[#e1ad01]">Glue Song</span>
@@ -417,22 +342,16 @@
         </audio>
     </div>
 
-    <!-- Introduction -->
     <div id="intro-screen" class="text-center text-white mb-12 drop-shadow-lg z-20">
-        <h1 class="text-3xl md:text-4xl serif mb-4 opacity-0 transition-opacity duration-1000" id="title-text">
-            Unroll the path ahead...
-        </h1>
+        <h1 class="text-3xl md:text-4xl serif mb-4 opacity-0 transition-opacity duration-1000" id="title-text">Unroll the path ahead...</h1>
     </div>
 
-    <!-- Scroll Structure -->
     <div class="scroll-wrapper">
         <div class="scroll-roller"></div>
         <div class="scroll-body" id="scroll-body">
             <div id="seal-container" class="py-2">
                 <div class="seal" id="scroll-seal">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                        <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
-                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" /></svg>
                 </div>
                 <p class="text-center text-[10px] serif uppercase tracking-widest text-orange-900 font-bold opacity-80">Break the Seal</p>
             </div>
@@ -452,27 +371,19 @@
                         <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Kazuha Memory">
                     </div>
 
-                    <!-- Voice Player Button -->
                     <div class="voice-player-btn opacity-0 transition-opacity duration-1000" id="voice-btn">
-                        <div class="icon-circle">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                                <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
-                            </svg>
-                        </div>
                         <span class="text-xs serif uppercase tracking-widest">Voice of the Wind</span>
                         <audio id="voice-audio">
                             <source src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/Kazuha%20Birthday%20Voiceline%20%20Genshin%20Impact.mp3" type="audio/mpeg">
                         </audio>
                     </div>
 
-                    <!-- HAIKU -->
                     <div class="space-y-4 text-xl leading-relaxed text-gray-800 italic serif text-center my-10 border-y border-red-50 py-4">
                         <p id="poem-1" class="opacity-0 transition-opacity duration-1000">"Sun and moon rejoice,"</p>
                         <p id="poem-2" class="opacity-0 transition-opacity duration-1000">"Birds of dawn sing songs anew,"</p>
                         <p id="poem-3" class="opacity-0 transition-opacity duration-1000">"Far from home, with you..."</p>
                     </div>
 
-                    <!-- MAIN LETTER MESSAGE -->
                     <div class="letter-content text-gray-800 text-lg leading-relaxed serif text-justify mt-8">
                         <div class="opacity-0 transition-opacity duration-1000" id="salutation">
                             <strong class="text-4xl block text-red-900 mb-6">To my Dearest Charise,</strong>
@@ -486,7 +397,7 @@
                         </div>
 
                         <p class="opacity-0 transition-opacity duration-1000" id="para-2">
-                            Like I had wished you last birthday mo, tumangkad ka nga, di ko naeexpect na mangyayari yun or sadyang kuba ka lang. And I hope na titigilan mo na yung pagmumura mo, pero parang sanay ka na. After 427 days of getting to know you, especially the things you have a hard time expressing, I'm both interested and concerned. (Noong una, akala ko I would've lost interest within 5 months by how your friends were describing you and by how they were discouraging me to grow interested in you.)
+                            Like I had wished you last birthday mo, tumangkad ka nga, di ko naeexpect na mangyayari yun or sadyang kuba ka lang. And I hope na titigilan mo na yung pagmumura mo, pero parang sanay ka na. After 427 days of getting to know you, especially the things you have a hard time expressing, I'm both interested and concerned.
                         </p>
                         <p class="opacity-0 transition-opacity duration-1000" id="para-3">
                             A decade from now, sana di ka na mahiyain at makaraos ka sa mga problema mo lalo na sa emotions at actions mo. Maybe you don't know this pero you suppress yourself from feeling more than what you've established for yourself. You're scared of trying new things, but I know you'll change in a good way. Pero no matter happens, you'll always be Ma. Charise P. Reyes, never forget that okay? Don't lose yourself as you grow older.
@@ -504,12 +415,6 @@
                         <p class="text-2xl serif font-bold text-red-950">Klark</p>
                     </div>
                 </div>
-                
-                <div class="mt-10 flex justify-center">
-                    <button id="wind-button" class="px-8 py-3 bg-red-900 text-white hover:bg-red-800 transition-all rounded-sm serif text-sm uppercase tracking-widest shadow-lg">
-                        Listen to the Wind
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -519,62 +424,44 @@
         </div>
     </div>
 
-    <div id="footer-note" class="text-center text-white drop-shadow-md mt-12 opacity-0 text-sm italic serif">
-        "The wind knows all."
-    </div>
-
     <script>
         const leafContainer = document.getElementById('leaf-container');
         const scrollSeal = document.getElementById('scroll-seal');
         const sealContainer = document.getElementById('seal-container');
         const scrollBody = document.getElementById('scroll-body');
         const innerContent = document.getElementById('inner-content');
-        const windBtn = document.getElementById('wind-button');
         const polaroidContainer = document.getElementById('polaroid-container');
-
         const music = document.getElementById('bg-music');
         const playPauseBtn = document.getElementById('play-pause-btn');
         const playIcon = document.getElementById('play-icon');
         const pauseIcon = document.getElementById('pause-icon');
-        const playerRoot = document.getElementById('player-root');
-
         const voiceBtn = document.getElementById('voice-btn');
         const voiceAudio = document.getElementById('voice-audio');
 
-        function updateMusicUI() {
-            if (music.paused) {
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-                playerRoot.classList.remove('playing');
-                playPauseBtn.classList.remove('spinning');
-            } else {
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-                playerRoot.classList.add('playing');
-                playPauseBtn.classList.add('spinning');
-            }
-        }
-
         playPauseBtn.addEventListener('click', () => {
             if (music.paused) {
-                music.play().catch(e => console.log("Audio play blocked."));
+                music.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                playPauseBtn.classList.add('spinning');
             } else {
                 music.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                playPauseBtn.classList.remove('spinning');
             }
-            updateMusicUI();
         });
 
         voiceBtn.addEventListener('click', () => {
-            if (!music.paused) {
-                music.pause();
-                updateMusicUI();
-            }
+            music.pause();
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            playPauseBtn.classList.remove('spinning');
             voiceAudio.currentTime = 0;
-            voiceAudio.play().catch(e => console.log("Voice audio play blocked."));
+            voiceAudio.play();
         });
 
         let leaves = [];
-
         class Leaf {
             constructor() {
                 this.el = document.createElement('div');
@@ -582,52 +469,36 @@
                 leafContainer.appendChild(this.el);
                 this.reset();
             }
-
             reset() {
                 this.size = 35 + Math.random() * 45;
                 this.x = Math.random() * window.innerWidth;
                 this.y = -this.size - (Math.random() * 800);
                 this.vy = 1 + Math.random() * 1.5;
-                this.horizontalRange = 20 + Math.random() * 50;
-                this.swaySpeed = 0.01 + Math.random() * 0.02;
                 this.swayOffset = Math.random() * Math.PI * 2;
                 this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 1.5;
                 this.el.style.width = `${this.size}px`;
                 this.el.style.height = `${this.size}px`;
             }
-
             update() {
                 this.y += this.vy;
-                this.swayOffset += this.swaySpeed;
-                const currentX = this.x + Math.sin(this.swayOffset) * this.horizontalRange;
-                this.rotation += this.rotationSpeed;
+                this.swayOffset += 0.02;
+                const currentX = this.x + Math.sin(this.swayOffset) * 50;
                 if (this.y > window.innerHeight + this.size) this.reset();
-                this.el.style.transform = `translate3d(${currentX}px, ${this.y}px, 0) rotate(${this.rotation}deg) rotateX(${Math.sin(this.swayOffset) * 45}deg)`;
+                this.el.style.transform = `translate3d(${currentX}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
             }
         }
 
-        function initLeaves() {
-            for (let i = 0; i < 35; i++) leaves.push(new Leaf());
-        }
-
-        function animate() {
-            leaves.forEach(leaf => leaf.update());
-            requestAnimationFrame(animate);
-        }
-
         window.onload = () => {
-            setTimeout(() => {
-                const title = document.getElementById('title-text');
-                if (title) title.style.opacity = '1';
-            }, 500);
-            initLeaves();
-            animate();
+            document.getElementById('title-text').style.opacity = '1';
+            for (let i = 0; i < 35; i++) leaves.push(new Leaf());
+            (function animate() {
+                leaves.forEach(l => l.update());
+                requestAnimationFrame(animate);
+            })();
         };
 
         scrollSeal.addEventListener('click', () => {
-            sealContainer.style.opacity = '0';
-            setTimeout(() => sealContainer.style.display = 'none', 500);
+            sealContainer.style.display = 'none';
             scrollBody.classList.add('open');
             innerContent.classList.add('revealed');
             polaroidContainer.classList.add('visible'); 
@@ -635,12 +506,7 @@
         });
 
         async function revealStory() {
-            const elements = [
-                'voice-btn', 'poem-1', 'poem-2', 'poem-3', 
-                'salutation', 'para-1', 'img-placeholder-2', 
-                'para-2', 'para-3', 'para-4', 'final-message',
-                'signature', 'footer-note'
-            ];
+            const elements = ['voice-btn', 'poem-1', 'poem-2', 'poem-3', 'salutation', 'para-1', 'img-placeholder-2', 'para-2', 'para-3', 'para-4', 'final-message', 'signature'];
             for (const id of elements) {
                 const el = document.getElementById(id);
                 if (el) {
@@ -649,37 +515,6 @@
                 }
             }
         }
-
-        windBtn.addEventListener('click', () => {
-            scrollBody.style.transform = 'scale(1.01) translateY(-5px)';
-            setTimeout(() => scrollBody.style.transform = '', 300);
-            for(let i = 0; i < 30; i++) {
-                const p = document.createElement('div');
-                p.className = 'wind-particle';
-                const size = Math.random() * 3 + 1;
-                p.style.width = `${size}px`;
-                p.style.height = `${size}px`;
-                p.style.left = '50%';
-                p.style.top = '50%';
-                document.body.appendChild(p);
-                const angle = Math.random() * Math.PI * 2;
-                const dist = 100 + Math.random() * 200;
-                const tx = Math.cos(angle) * dist;
-                const ty = Math.sin(angle) * dist;
-                p.animate([
-                    { transform: 'translate(0, 0)', opacity: 1 },
-                    { transform: `translate(${tx}px, ${ty}px)`, opacity: 0 }
-                ], {
-                    duration: 1000 + Math.random() * 1000,
-                    easing: 'cubic-bezier(0, .5, .5, 1)'
-                }).onfinish = () => p.remove();
-            }
-            leaves.forEach(leaf => {
-                const originalVy = leaf.vy;
-                leaf.vy += 5;
-                setTimeout(() => leaf.vy = originalVy, 2000);
-            });
-        });
     </script>
 </body>
 </html>
