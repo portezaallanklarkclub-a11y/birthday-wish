@@ -66,7 +66,7 @@
             will-change: transform;
         }
 
-        /* Polaroid Styles from previous version */
+        /* Polaroid Styles */
         .polaroid-container {
             position: fixed;
             top: 0;
@@ -341,7 +341,7 @@
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-bg.jpg" alt="Memory 1">
         </div>
         <div class="polaroid" style="top: 45%; left: 3%; --rot: 5deg; animation-delay: -2s;">
-            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img2.jpg" alt="Memory 2">
+            <img src="6dfe1b4f-1a17-4ef8-9326-64b9049e7686.jpg" alt="Memory 2">
         </div>
         <div class="polaroid" style="top: 75%; left: 8%; --rot: -12deg; animation-delay: -4s;">
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Memory 3">
@@ -354,7 +354,7 @@
             <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-bg.jpg" alt="Memory 5">
         </div>
         <div class="polaroid" style="top: 80%; right: 7%; --rot: 15deg; animation-delay: -5s;">
-            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img2.jpg" alt="Memory 6">
+            <img src="6dfe1b4f-1a17-4ef8-9326-64b9049e7686.jpg" alt="Memory 6">
         </div>
     </div>
 
@@ -437,8 +437,9 @@
                             Happy Birthday!! 15 years old ka naa, dalagang dalaga na siya. Naalala ko pa noong gumagawa pa ako ng birthday message sa'yo last year, parang kailan lang. Di ko marunong magpatugtog ng gitara, gumuhit ng mga magandang larawan, pero magaling ako mag-sulat at gumawa ng mga ganito. Baka hindi ko kayang awitin ang nararamdaman ko, pero kaya kong isulat ang lahat ng pangarap ko para sa’yo.
                         </p>
                         
+                        <!-- Updated image source to exactly match uploaded filename -->
                         <div class="image-frame opacity-0 transition-opacity duration-1000" id="img-placeholder-2">
-                            <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuha-img2.jpg" alt="Memory 2">
+                            <img src="6dfe1b4f-1a17-4ef8-9326-64b9049e7686.jpg" alt="Memory 2">
                         </div>
 
                         <p class="opacity-0 transition-opacity duration-1000" id="para-2">
@@ -512,7 +513,7 @@
             }
         });
 
-        // LEAF LOGIC (USING THE PHYSICS FROM YOUR REQUEST)
+        // LEAF LOGIC
         let leaves = [];
 
         class Leaf {
@@ -580,7 +581,7 @@
             setTimeout(() => sealContainer.style.display = 'none', 500);
             scrollBody.classList.add('open');
             innerContent.classList.add('revealed');
-            polaroidContainer.classList.add('visible'); // Show polaroids when opened
+            polaroidContainer.classList.add('visible'); 
             revealStory();
         });
 
