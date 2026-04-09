@@ -178,7 +178,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 25px 0;
+            margin-top: 25px;
+            margin-bottom: 10px;
             overflow: hidden;
             position: relative;
         }
@@ -327,6 +328,38 @@
         }
 
         .hidden { display: none; }
+
+        /* Secondary Voice Player Style */
+        .voice-player-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto 25px auto;
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: fit-content;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            color: var(--maple-red);
+            font-weight: 600;
+        }
+        .voice-player-btn:hover {
+            background: #fdfaf6;
+            border-color: var(--maple-red);
+            transform: translateY(-2px);
+        }
+        .voice-player-btn .icon-circle {
+            width: 28px;
+            height: 28px;
+            background: var(--maple-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
@@ -338,7 +371,6 @@
     <div class="polaroid-container" id="polaroid-container">
         <!-- Left Side -->
         <div class="polaroid" style="top: 10%; left: 5%; --rot: -8deg; animation-delay: 0s;">
-            <!-- Changed: Top Left -->
             <img src="⋆.jpg" alt="Memory 1">
         </div>
         <div class="polaroid" style="top: 45%; left: 3%; --rot: 5deg; animation-delay: -2s;">
@@ -349,14 +381,12 @@
         </div>
         <!-- Right Side -->
         <div class="polaroid" style="top: 15%; right: 5%; --rot: 10deg; animation-delay: -1s;">
-            <!-- Changed: Top Right -->
             <img src="๑ 🍂⃝▒ 🄺𝐚𝐳𝐮𝐡𝐚 ױ ִ ᨴ.jpg" alt="Memory 4">
         </div>
         <div class="polaroid" style="top: 50%; right: 3%; --rot: -6deg; animation-delay: -3s;">
             <img src="52aaf494-25ae-4abf-b535-f9a29c712e7e.jpg" alt="Memory 5">
         </div>
         <div class="polaroid" style="top: 80%; right: 7%; --rot: 15deg; animation-delay: -5s;">
-            <!-- Changed: Bottom Right (Memory 6) -->
             <img src="万叶.jpg" alt="Memory 6">
         </div>
     </div>
@@ -424,11 +454,25 @@
                         <img src="https://portezaallanklarkclub-a11y.github.io/birthday-wish/kazuu.jpg" alt="Memory 1">
                     </div>
 
-                    <!-- HAIKU -->
+                    <!-- Voice Player Button -->
+                    <div class="voice-player-btn opacity-0 transition-opacity duration-1000" id="voice-btn">
+                        <div class="icon-circle">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+                                <path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
+                            </svg>
+                        </div>
+                        <span class="text-xs serif uppercase tracking-widest">Voice of the Wind</span>
+                        <audio id="voice-audio">
+                            <!-- Link to your specific audio file here -->
+                            <source src="https://static.wikia.nocookie.net/gensin-impact/images/a/a2/VO_Kaedehara_Kazuha_Hello.ogg" type="audio/ogg">
+                        </audio>
+                    </div>
+
+                    <!-- HAIKU (Updated) -->
                     <div class="space-y-4 text-xl leading-relaxed text-gray-800 italic serif text-center my-10 border-y border-red-50 py-4">
-                        <p id="poem-1" class="opacity-0 transition-opacity duration-1000">"Maple leaves turn red,"</p>
-                        <p id="poem-2" class="opacity-0 transition-opacity duration-1000">"Wild winds whisper through the trees,"</p>
-                        <p id="poem-3" class="opacity-0 transition-opacity duration-1000">"Wandering hearts rest."</p>
+                        <p id="poem-1" class="opacity-0 transition-opacity duration-1000">"Sun and moon rejoice,"</p>
+                        <p id="poem-2" class="opacity-0 transition-opacity duration-1000">"Birds of dawn sing songs anew,"</p>
+                        <p id="poem-3" class="opacity-0 transition-opacity duration-1000">"Far from home, with you..."</p>
                     </div>
 
                     <!-- MAIN LETTER MESSAGE -->
@@ -499,20 +543,41 @@
         const pauseIcon = document.getElementById('pause-icon');
         const playerRoot = document.getElementById('player-root');
 
-        playPauseBtn.addEventListener('click', () => {
+        // Voice Player Logic
+        const voiceBtn = document.getElementById('voice-btn');
+        const voiceAudio = document.getElementById('voice-audio');
+
+        function updateMusicUI() {
             if (music.paused) {
-                music.play().catch(e => console.log("Audio play blocked."));
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-                playerRoot.classList.add('playing');
-                playPauseBtn.classList.add('spinning');
-            } else {
-                music.pause();
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
                 playerRoot.classList.remove('playing');
                 playPauseBtn.classList.remove('spinning');
+            } else {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                playerRoot.classList.add('playing');
+                playPauseBtn.classList.add('spinning');
             }
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().catch(e => console.log("Audio play blocked."));
+            } else {
+                music.pause();
+            }
+            updateMusicUI();
+        });
+
+        voiceBtn.addEventListener('click', () => {
+            // Pause background music while listening to voice
+            if (!music.paused) {
+                music.pause();
+                updateMusicUI();
+            }
+            voiceAudio.currentTime = 0;
+            voiceAudio.play().catch(e => console.log("Voice audio play blocked."));
         });
 
         // LEAF LOGIC
@@ -589,7 +654,7 @@
 
         async function revealStory() {
             const elements = [
-                'poem-1', 'poem-2', 'poem-3', 
+                'voice-btn', 'poem-1', 'poem-2', 'poem-3', 
                 'salutation', 'para-1', 'img-placeholder-2', 
                 'para-2', 'para-3', 'para-4', 'final-message',
                 'signature', 'footer-note'
